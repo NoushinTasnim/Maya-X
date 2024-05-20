@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
+import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/colors.dart';
 
@@ -158,6 +159,99 @@ class MyCartScreen extends StatelessWidget {
                 ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '১x ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাডঃ ',
+                      style: TextStyle(
+                          fontFamily: 'Kalpurush',
+                          color: kSecondaryColor.withOpacity(.6)
+                      ),
+                    ),
+                    Text(
+                      '১১০ টাকা',
+                      style: TextStyle(
+                          fontFamily: 'Kalpurush',
+                          color: kSecondaryColor.withOpacity(.6)
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '১x ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাডঃ ',
+                      style: TextStyle(
+                          fontFamily: 'Kalpurush',
+                          color: kSecondaryColor.withOpacity(.6)
+                      ),
+                    ),
+                    Text(
+                      '১১০ টাকা',
+                      style: TextStyle(
+                          fontFamily: 'Kalpurush',
+                          color: kSecondaryColor.withOpacity(.6)
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'ডেলিভারী চার্জঃ ',
+                        style: TextStyle(
+                            fontFamily: 'Kalpurush',
+                            color: kSecondaryColor.withOpacity(.6)
+                        ),
+                      ),
+                      Text(
+                        '৫০ টাকা',
+                        style: TextStyle(
+                            fontFamily: 'Kalpurush',
+                            color: kSecondaryColor.withOpacity(.6)
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 1,
+                  color: kSecondaryColor.withOpacity(.2),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'সর্বমোটঃ ',
+                        style: TextStyle(
+                            fontFamily: 'Kalpurush',
+                            color: kSecondaryColor
+                        ),
+                      ),
+                      Text(
+                        '২৭০ টাকা',
+                        style: TextStyle(
+                            fontFamily: 'Kalpurush',
+                            color: kSecondaryColor
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -165,25 +259,34 @@ class MyCartScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16)
             ),
             padding: EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'চেকআউট করুন',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontFamily: 'Kalpurush',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckOutScreen(),
                   ),
-                ),
-                Icon(
-                  Icons.navigate_next,
-                  color: kPrimaryColor,
-                )
-              ],
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'চেকআউট করুন',
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                      fontFamily: 'Kalpurush',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Icon(
+                    Icons.navigate_next,
+                    color: kPrimaryColor,
+                  )
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
