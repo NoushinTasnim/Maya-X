@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/product.dart';
 import '../components/product_card.dart';
@@ -47,12 +48,21 @@ class _ProductScreenState extends State<ProductScreen> {
             color: kPrimaryColor,
           ),
         ),
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.all(16.0),
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              color: kPrimaryColor,
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => MyCartScreen(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                color: kPrimaryColor,
+              ),
             ),
           ),
         ],

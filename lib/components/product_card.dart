@@ -64,13 +64,29 @@ class ProductCard extends StatelessWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    product.amount,
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        product.amount,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: kAccent2,
+                          borderRadius: BorderRadius.circular(8)
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.add_shopping_cart,
+                          color: kAccentColor,
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
