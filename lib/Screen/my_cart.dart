@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/Screen/checkout_screen.dart';
-import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/colors.dart';
 
-class MyCartScreen extends StatelessWidget {
+class MyCartScreen extends StatefulWidget {
   const MyCartScreen({super.key});
+
+  @override
+  State<MyCartScreen> createState() => _MyCartScreenState();
+}
+
+class _MyCartScreenState extends State<MyCartScreen> {
+  int _counter = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +91,14 @@ class MyCartScreen extends StatelessWidget {
                           ),
                           Column(
                             children: [
-                              Icon(
-                                Icons.add_circle,
-                                color: kAccentColor,
+                              InkWell(
+                                onTap:(){
+
+                                },
+                                child: Icon(
+                                  Icons.add_circle,
+                                  color: kAccentColor,
+                                ),
                               ),
                               Text(
                                 '১'

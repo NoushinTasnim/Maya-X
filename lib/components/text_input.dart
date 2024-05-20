@@ -5,12 +5,10 @@ class TextInputFiledsWidget extends StatelessWidget {
   const TextInputFiledsWidget({
     super.key,
     required this.phoneController,
-    required this.passwordController,
     this.userController,
   });
 
   final TextEditingController phoneController;
-  final TextEditingController passwordController;
   final TextEditingController? userController;
 
   @override
@@ -34,23 +32,12 @@ class TextInputFiledsWidget extends StatelessWidget {
         ) : SizedBox(
           height: 32,
         ),
-
-
         TextFieldWidget(
           text: 'ফোন নম্বর',
           iconData: Icons.phone_outlined,
           textInputController: phoneController,
         ),
         const SizedBox(
-          height: 16,
-        ),
-        TextFieldWidget(
-          iconData: Icons.lock_outline,
-          text: 'পাসওয়ার্ড',
-          obscureText: true,
-          textInputController: passwordController,
-        ),
-        SizedBox(
           height: 16,
         ),
       ],
