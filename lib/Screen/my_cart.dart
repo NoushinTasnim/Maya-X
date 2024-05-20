@@ -70,7 +70,8 @@ class MyCartScreen extends StatelessWidget {
                                 Text(
                                   'ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাড',
                                   style: TextStyle(
-                                      fontFamily: 'Kalpurush'
+                                      fontFamily: 'Kalpurush',
+                                      fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
@@ -125,7 +126,8 @@ class MyCartScreen extends StatelessWidget {
                                 Text(
                                   'ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাড',
                                   style: TextStyle(
-                                      fontFamily: 'Kalpurush'
+                                      fontFamily: 'Kalpurush',
+                                      fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
