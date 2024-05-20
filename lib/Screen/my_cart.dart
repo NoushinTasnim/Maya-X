@@ -93,7 +93,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             children: [
                               InkWell(
                                 onTap:(){
-
+                                  setState(() {
+                                    if(_counter<10)
+                                      _counter++;
+                                  });
                                 },
                                 child: Icon(
                                   Icons.add_circle,
@@ -101,11 +104,19 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 ),
                               ),
                               Text(
-                                '১'
+                                '$_counter'
                               ),
-                              Icon(
-                                Icons.remove_circle,
-                                color: kAccentColor,
+                              InkWell(
+                                onTap:(){
+                                  setState(() {
+                                    if(_counter>0)
+                                      _counter--;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.remove_circle,
+                                  color: kAccentColor,
+                                ),
                               )
                             ],
                           ),

@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:maya_x/Screen/details_screen.dart';
-import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/colors.dart';
 
 import '../model/product.dart';
@@ -75,15 +75,25 @@ class ProductCard extends StatelessWidget {
                             fontSize: 16
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: kAccent2,
-                          borderRadius: BorderRadius.circular(8)
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.add_shopping_cart,
-                          color: kAccentColor,
+                      InkWell(
+                        onTap: (){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: kSecondaryColor,
+                              content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: kAccent2,
+                            borderRadius: BorderRadius.circular(8)
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Icon(
+                            Icons.add_shopping_cart,
+                            color: kAccentColor,
+                          ),
                         ),
                       )
                     ],

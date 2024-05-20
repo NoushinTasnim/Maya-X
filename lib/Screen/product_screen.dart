@@ -70,7 +70,7 @@ class _ProductScreenState extends State<ProductScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+            padding: const EdgeInsets.all(16),
             child: TextField(
               cursorColor: kSecondaryColor,
               controller: _searchController,
@@ -88,7 +88,7 @@ class _ProductScreenState extends State<ProductScreen> {
               },
             ),
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 16),
           Expanded(
             child: FutureBuilder<List<Category>>(
               future: _futureCategories,
@@ -121,8 +121,8 @@ class _ProductScreenState extends State<ProductScreen> {
                             style: const TextStyle(
                               fontFamily: 'Kalpurush',
                               color: kSecondaryColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

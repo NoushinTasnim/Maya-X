@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/colors.dart';
 
 import '../model/product.dart';
@@ -10,7 +11,21 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: kPrimaryColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: InkWell(
+            onTap:(){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: kAccentColor,
+            )
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -83,84 +98,99 @@ class DetailsScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.black45,
-                                    blurRadius: 5,
-                                    offset: Offset(5,5)
-                                ),
-                                BoxShadow(
-                                    color: Colors.white30,
-                                    blurRadius: 15,
-                                    offset: Offset(-5,-5)
-                                ),
-                              ]
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_shopping_cart_outlined,
-                                color: kAccentColor,
+                        InkWell(
+                          onTap: (){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: kSecondaryColor,
+                                content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
                               ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'কার্টে যোগ করুন',
-                                style: TextStyle(
-                                    color: kAccentColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 5,
+                                      offset: Offset(5,5)
+                                  ),
+                                  BoxShadow(
+                                      color: Colors.white30,
+                                      blurRadius: 15,
+                                      offset: Offset(-5,-5)
+                                  ),
+                                ]
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_shopping_cart_outlined,
+                                  color: kAccentColor,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  'কার্টে যোগ করুন',
+                                  style: TextStyle(
+                                      color: kAccentColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          decoration: BoxDecoration(
-                              color: kAccentColor,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.black45,
-                                    blurRadius: 5,
-                                    offset: Offset(5,5)
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckOutScreen()));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            decoration: BoxDecoration(
+                                color: kAccentColor,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 5,
+                                      offset: Offset(5,5)
+                                  ),
+                                  BoxShadow(
+                                      color: Colors.white30,
+                                      blurRadius: 5,
+                                      offset: Offset(-5,-5)
+                                  ),
+                                ]
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color: kPrimaryColor,
                                 ),
-                                BoxShadow(
-                                    color: Colors.white30,
-                                    blurRadius: 5,
-                                    offset: Offset(-5,-5)
+                                SizedBox(
+                                  width: 8,
                                 ),
-                              ]
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.shopping_bag_outlined,
-                                color: kPrimaryColor,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                'অর্ডার করুন',
-                                style: TextStyle(
-                                    color: kPrimaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12
+                                Text(
+                                  'অর্ডার করুন',
+                                  style: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
