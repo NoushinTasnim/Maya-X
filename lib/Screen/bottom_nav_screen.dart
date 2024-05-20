@@ -50,13 +50,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: kAccentColor,
-          boxShadow: [
-            BoxShadow(
-              color: kAccentColor.withOpacity(0.8),
-              blurRadius: 20,
-              offset: Offset(0, -2),
-            ),
-          ],
           borderRadius: BorderRadius.circular(48),
         ),
         child: Padding(
@@ -79,15 +72,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             tabs: [
               GButton(
                 icon: Icons.shopping_cart,
-                text: 'Buy Products',
+                text: 'পণ্য কিনুন',
               ),
               GButton(
                 icon: Icons.home_filled,
-                text: 'Home',
+                text: 'হোম',
               ),
               GButton(
                 icon: Icons.book,
-                text: 'Learn',
+                text: 'শিখুন',
               ),
             ],
           ),

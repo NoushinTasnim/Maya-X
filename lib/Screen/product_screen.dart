@@ -97,7 +97,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   itemBuilder: (context, categoryIndex) {
                     final category = categories[categoryIndex];
                     final pageController = PageController(
-                      viewportFraction: .6,
+                      viewportFraction: .5,
                       initialPage: 1,
                     );
 
@@ -105,7 +105,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
                             category.name,
                             style: const TextStyle(
@@ -120,7 +120,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: AspectRatio(
-                            aspectRatio: 1.6,
+                            aspectRatio: 1.8,
                             child: PageView.builder(
                               onPageChanged: (value) {
                                 setState(() {
