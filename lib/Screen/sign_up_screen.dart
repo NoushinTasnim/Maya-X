@@ -4,6 +4,7 @@ import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/colors.dart';
 
 import '../components/text_input.dart';
+import 'bottom_nav_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -45,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductScreen(),
+                    builder: (context) => BottomNavScreen(),
                   ),
                 );
               },

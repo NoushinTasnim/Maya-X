@@ -1,19 +1,18 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:maya_x/Screen/details_screen.dart';
 import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/colors.dart';
+
+import '../model/product.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
-    required this.image,
-    required this.name,
-    required this.amount,
+    required this.product,
   });
 
-  final String image;
-  final String name;
-  final String amount;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class ProductCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: Image(
                 height: 150,
-                image: AssetImage(image),
+                image: AssetImage(product.image),
               ),
             ),
           ),
@@ -48,14 +47,14 @@ class ProductCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: kAccentColor.withOpacity(0.75),
+                  color: kAccentColor.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(8)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    product.name,
                     style: TextStyle(
                       fontFamily: 'Kalpursh',
                         color: kPrimaryColor,
@@ -66,7 +65,7 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    amount,
+                    product.amount,
                     style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.w700,
@@ -79,7 +78,7 @@ class ProductCard extends StatelessWidget {
           )
         ],
       ),
-      openBuilder: (context, action) => LoginScreen(),
+      openBuilder: (context, action) => DetailsScreen(product: product),
     );
   }
 }

@@ -37,7 +37,7 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: kAccentColor,
         automaticallyImplyLeading: false,
         leading: const Icon(
-          Icons.subscriptions_outlined,
+          Icons.menu_rounded,
           color: kPrimaryColor,
         ),
         title: const Text(
@@ -51,17 +51,17 @@ class _ProductScreenState extends State<ProductScreen> {
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Icon(
-              Icons.shopping_bag_outlined,
+              Icons.shopping_cart_outlined,
               color: kPrimaryColor,
             ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          children: [
-            TextField(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+            child: TextField(
               cursorColor: kSecondaryColor,
               controller: _searchController,
               decoration: const InputDecoration(
@@ -77,33 +77,36 @@ class _ProductScreenState extends State<ProductScreen> {
                 print('Search query: $value');
               },
             ),
-            SizedBox(height: 32),
-            Expanded(
-              child: FutureBuilder<List<Category>>(
-                future: _futureCategories,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No products available'));
-                  }
+          ),
+          SizedBox(height: 32),
+          Expanded(
+            child: FutureBuilder<List<Category>>(
+              future: _futureCategories,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No products available'));
+                }
 
-                  final categories = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: categories.length,
-                    itemBuilder: (context, categoryIndex) {
-                      final category = categories[categoryIndex];
-                      final pageController = PageController(
-                        viewportFraction: .6,
-                        initialPage: 1,
-                      );
+                final categories = snapshot.data!;
+                return ListView.builder(
+                  itemCount: categories.length,
+                  itemBuilder: (context, categoryIndex) {
+                    final category = categories[categoryIndex];
+                    final pageController = PageController(
+                      viewportFraction: .6,
+                      initialPage: 1,
+                    );
 
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
                             category.name,
                             style: const TextStyle(
                               fontFamily: 'Kalpurush',
@@ -112,40 +115,40 @@ class _ProductScreenState extends State<ProductScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(height: 8),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: AspectRatio(
-                              aspectRatio: 1.6,
-                              child: PageView.builder(
-                                onPageChanged: (value) {
-                                  setState(() {
-                                    // Handle page change if necessary
-                                  });
-                                },
-                                controller: pageController,
-                                physics: ClampingScrollPhysics(),
-                                itemCount: category.products.length,
-                                itemBuilder: (context, productIndex) {
-                                  return buildProductCard(
-                                    category.products[productIndex],
-                                    pageController,
-                                    productIndex,
-                                  );
-                                },
-                              ),
+                        ),
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: AspectRatio(
+                            aspectRatio: 1.6,
+                            child: PageView.builder(
+                              onPageChanged: (value) {
+                                setState(() {
+                                  // Handle page change if necessary
+                                });
+                              },
+                              controller: pageController,
+                              physics: ClampingScrollPhysics(),
+                              itemCount: category.products.length,
+                              itemBuilder: (context, productIndex) {
+                                return buildProductCard(
+                                  category.products[productIndex],
+                                  pageController,
+                                  productIndex,
+                                );
+                              },
                             ),
                           ),
-                          SizedBox(height: 32),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
+                        ),
+                        SizedBox(height: 32),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -167,9 +170,7 @@ class _ProductScreenState extends State<ProductScreen> {
           child: Transform.scale(
             scale: scale,
             child: ProductCard(
-              name: product.name,
-              amount: product.amount,
-              image: product.image,
+              product: product,
             ),
           ),
         );

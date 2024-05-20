@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/Screen/sign_up_screen.dart';
 import 'package:maya_x/colors.dart';
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductScreen(),
+                    builder: (context) => BottomNavScreen(),
                   ),
                 );
               },
