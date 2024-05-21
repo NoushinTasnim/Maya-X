@@ -4,6 +4,8 @@ import 'package:maya_x/Screen/otp_screen.dart';
 import 'package:maya_x/colors.dart';
 import '../components/text_input.dart';
 import 'bottom_nav_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -44,12 +46,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextInputFiledsWidget(phoneController: phoneController, userController: userController,passwordController: passwordController),
                 InkWell(
                   onTap: (){
+
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => OTPScreen(),
                       ),
                     );
+
+                    CollectionReference collref =FirebaseFirestore.instance.collection('user');
+                    collref.add({
+                      'phone':phoneController.text.trim(),
+                      'password':passwordController.text.trim(),
+                      'name':userController.text.trim(),
+
+                    });
+
                   },
                   child: Container(
                     width: double.infinity,
