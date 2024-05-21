@@ -15,6 +15,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                TextInputFiledsWidget(phoneController: phoneController, userController: userController,),
+                TextInputFiledsWidget(phoneController: phoneController, userController: userController,passwordController: passwordController),
                 InkWell(
                   onTap: (){
                     Navigator.push(

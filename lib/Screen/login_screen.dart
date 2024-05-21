@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                TextInputFiledsWidget(phoneController: phoneController),
+                TextInputFiledsWidget(phoneController: phoneController, passwordController: passwordController),
                 InkWell(
                   onTap: (){
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OTPScreen(),
+                        builder: (context) => BottomNavScreen(),
                       ),
                     );
                   },

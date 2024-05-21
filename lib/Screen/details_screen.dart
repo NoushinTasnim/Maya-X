@@ -18,10 +18,10 @@ class DetailsScreen extends StatelessWidget {
           MaterialPageRoute(builder: (context)=>MyCartScreen())
           );
         },
-        backgroundColor: kAccent2,
+        backgroundColor: kAccentColor,
         child: const Icon(
           Icons.shopping_cart_outlined,
-          color: kSecondaryColor,
+          color: kPrimaryColor,
         ),
       ),
       extendBodyBehindAppBar: true,
