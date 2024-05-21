@@ -117,7 +117,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     SnackBar(content: Text('সাইন আপ সম্পন্ন হয়েছে।')),
                   );
 
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => BottomNavScreen(),
