@@ -43,6 +43,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
         ),
       ),
       appBar: AppBar(
+        leading: InkWell(
+            onTap:(){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: kPrimaryColor,
+            )
+        ),
         backgroundColor: kAccentColor,
         title: Text(
           'আমার কার্ট',

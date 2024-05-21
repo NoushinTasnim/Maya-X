@@ -30,11 +30,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
+        leading: InkWell(
+            onTap:(){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: kPrimaryColor,
+            )
+        ),
         backgroundColor: kAccentColor,
         title: const Text(
           'চেকআউট',
           style: TextStyle(
-              fontFamily: 'Kalpurush'
+            fontFamily: 'Kalpurush',
+            color: kPrimaryColor,
           ),
         ),
       ),
