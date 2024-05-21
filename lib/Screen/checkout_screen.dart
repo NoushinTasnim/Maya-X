@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/Screen/order_confirmation_screen.dart';
 
 import '../colors.dart';
 import 'bottom_nav_screen.dart';
 
-class CheckOutScreen extends StatelessWidget {
+class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
+
+  @override
+  State<CheckOutScreen> createState() => _CheckOutScreenState();
+}
+
+class _CheckOutScreenState extends State<CheckOutScreen> {
+  bool _bkashPay = false;
+  bool _nagadPay = false;
+  bool _codPay = false;
 
   @override
   Widget build(BuildContext context) {
@@ -193,55 +203,106 @@ class CheckOutScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          if(!_bkashPay) {
+                            _bkashPay = true;
+                            if (_codPay) _codPay = false;
+                            if (_nagadPay) _nagadPay = false;
+                          }
+                          else
+                            _bkashPay = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: !_bkashPay? BoxDecoration(
+                          border: Border.all(
+                            color: kAccent2,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ):
+                        BoxDecoration(
                           color: kAccent2,
-                          width: 2,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: Image.asset(
-                        'images/image 26.png',
-                        height: 32,
+                        padding: EdgeInsets.all(8),
+                        child: Image.asset(
+                          'images/image 26.png',
+                          height: 32,
+                        ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          if(!_nagadPay) {
+                            _nagadPay = true;
+                            if (_codPay) _codPay = false;
+                            if (_bkashPay) _bkashPay = false;
+                          }
+                          else
+                            _nagadPay = false;
+                        });
+                      },
+                      child: Container(
+                        decoration:  !_nagadPay? BoxDecoration(
+                          border: Border.all(
+                            color: kAccent2,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ):
+                        BoxDecoration(
                           color: kAccent2,
-                          width: 2,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: Image.asset(
-                        'images/image 27.png',
-                        height: 32,
+                        padding: EdgeInsets.all(8),
+                        child: Image.asset(
+                          'images/image 27.png',
+                          height: 32,
+                        ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          if(!_codPay) {
+                            _codPay = true;
+                            if (_nagadPay) _nagadPay = false;
+                            if (_bkashPay) _bkashPay = false;
+                          }
+                          else
+                            _codPay = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: !_codPay? BoxDecoration(
+                          border: Border.all(
+                            color: kAccent2,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ):
+                        BoxDecoration(
                           color: kAccent2,
-                          width: 2,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: SizedBox(
-                        height: 32,
-                        child: Center(
-                          child: Text(
-                            'ক্যাশ অন ডেলিভারী',
-                            style: TextStyle(
-                              fontFamily: 'Sirajee',
-                              color: kSecondaryColor,
+                        padding: EdgeInsets.all(8),
+                        child: const SizedBox(
+                          height: 32,
+                          child: Center(
+                            child: Text(
+                              'ক্যাশ অন ডেলিভারী',
+                              style: TextStyle(
+                                fontFamily: 'Sirajee',
+                                color: kSecondaryColor,
+                              ),
                             ),
                           ),
-                        ),
-                      )
+                        )
+                      ),
                     )
                   ],
                 )
@@ -250,13 +311,29 @@ class CheckOutScreen extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: (_bkashPay | _nagadPay | _codPay )  ? BoxDecoration(
+                color: kAccentColor,
+                borderRadius: BorderRadius.circular(16)
+            ): BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(16)
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: InkWell(
               onTap: (){
+                if(!(_bkashPay | _nagadPay | _codPay )){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: kSecondaryColor,
+                      content: Text("পেমেন্টের মাধ্যম নির্বাচন করুন",),
+                    ),
+                  );
+                }
+                else{
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=> OrderConfirmation())
+                  );
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,

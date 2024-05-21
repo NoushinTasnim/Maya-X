@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: kAccentColor.withOpacity(0.8),
+                  color: kSecondaryColor.withOpacity(0.75),
                   borderRadius: BorderRadius.circular(8)
               ),
               child: Column(
@@ -92,7 +92,7 @@ class ProductCard extends StatelessWidget {
                           padding: EdgeInsets.all(8),
                           child: Icon(
                             Icons.add_shopping_cart,
-                            color: kAccentColor,
+                            color: kSecondaryColor,
                           ),
                         ),
                       )

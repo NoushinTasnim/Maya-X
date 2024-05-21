@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/checkout_screen.dart';
+import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 
 import '../model/product.dart';
@@ -11,6 +12,18 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+          MaterialPageRoute(builder: (context)=>MyCartScreen())
+          );
+        },
+        backgroundColor: kAccent2,
+        child: const Icon(
+          Icons.shopping_cart_outlined,
+          color: kSecondaryColor,
+        ),
+      ),
       extendBodyBehindAppBar: true,
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -20,7 +33,7 @@ class DetailsScreen extends StatelessWidget {
             onTap:(){
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: kAccentColor,
             )
@@ -41,12 +54,12 @@ class DetailsScreen extends StatelessWidget {
                       blurRadius: 48,
                     )
                   ],
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(64),
                   ),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(64),
                   ),
                   child: Image.asset(
@@ -69,7 +82,7 @@ class DetailsScreen extends StatelessWidget {
                         Expanded(
                           child: Text(
                             product.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Kalpurush',
                               color: kAccentColor,
                               fontSize: 20,
@@ -79,12 +92,12 @@ class DetailsScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Text(
                           product.amount,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: kAccentColor,
                             fontSize: 24,
                             fontWeight: FontWeight.w400,
@@ -101,14 +114,14 @@ class DetailsScreen extends StatelessWidget {
                         InkWell(
                           onTap: (){
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 backgroundColor: kSecondaryColor,
                                 content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
                               ),
                             );
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -153,7 +166,7 @@ class DetailsScreen extends StatelessWidget {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckOutScreen()));
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                             decoration: BoxDecoration(
                                 color: kAccentColor,
                                 borderRadius: BorderRadius.circular(8),
@@ -225,48 +238,6 @@ class DetailsScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class Butttons extends StatelessWidget {
-  const Butttons({
-    super.key,
-    required this.icons,
-  });
-
-  final IconData icons;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){},
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.03),
-        padding: EdgeInsets.all(10),
-        height: 64,
-        width: 64,
-        decoration: BoxDecoration(
-            color: kPrimaryColor,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                  color: kSecondaryColor.withOpacity(0.4),
-                  blurRadius: 20,
-                  offset: Offset(13,13)
-              ),
-              BoxShadow(
-                  color: Colors.white.withOpacity(.6),
-                  blurRadius: 15,
-                  offset: Offset(-10,-8)
-              )
-            ]
-        ),
-        child: Icon(
-          icons,
-          color: kPrimaryColor,
         ),
       ),
     );
