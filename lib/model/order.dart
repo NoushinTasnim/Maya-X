@@ -1,31 +1,40 @@
-class Orders {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Orders{
   final String id;
-  final int index;
-  final int quantity;
   final String name;
-  final String date;
-  final String amount;
+  final int quantity;
   final String image;
+  final DateTime date;
+  final String amount;
 
   Orders({
     required this.id,
-    required this.index,
-    required this.quantity,
     required this.name,
-    required this.amount,
-    required this.date,
+    required this.quantity,
     required this.image,
+    required this.date,
+    required this.amount,
   });
 
   factory Orders.fromJson(Map<String, dynamic> json) {
     return Orders(
       id: json['id'],
-      index: json['index'],
       name: json['name'],
       quantity: json['quantity'],
-      amount: json['amount'],
-      date: json['date'],
       image: json['image'],
+      date: (json['date'] as Timestamp).toDate(),
+      amount: json['amount'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'quantity': quantity,
+      'image': image,
+      'date': date,
+      'amount': amount,
+    };
   }
 }

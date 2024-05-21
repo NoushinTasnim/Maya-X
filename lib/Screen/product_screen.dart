@@ -20,7 +20,6 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   TextEditingController _searchController = TextEditingController();
   late Future<List<Category>> _futureCategories;
-  String? _userName;
 
   @override
   void initState() {

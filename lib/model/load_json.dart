@@ -5,14 +5,6 @@ import 'category.dart';
 import 'package:maya_x/model/product.dart';
 import 'package:maya_x/model/order.dart';
 
-//
-// Future<List<Category>> loadCategories() async {
-//   final String response = await rootBundle.loadString('assets/products.json');
-//   final data = json.decode(response) as Map<String, dynamic>;
-//   var categoriesFromJson = data['categories'] as List;
-//   return categoriesFromJson.map((json) => Category.fromJson(json)).toList();
-// }
-
 Future<List<Category>> loadCategories() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference categoriesRef = firestore.collection('categories');
@@ -42,9 +34,45 @@ Future<List<Category>> loadCategories() async {
 }
 
 Future<List<Orders>> loadOrders() async {
-  final String response = await rootBundle.loadString('assets/orders.json');
-  final data = json.decode(response) as Map<String, dynamic>;
-  var ordersFromJson = data['orders'] as List;
-  return ordersFromJson.map((json) => Orders.fromJson(json)).toList();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference usersRef = firestore.collection('user');
+
+  List<Orders> orders = [];
+
+  // Assuming each user's orders are stored under their unique user ID
+  QuerySnapshot usersSnapshot = await usersRef.get();
+
+  for (var userDoc in usersSnapshot.docs) {
+    CollectionReference ordersRef = userDoc.reference.collection('orders');
+    QuerySnapshot ordersSnapshot = await ordersRef.get();
+
+    for (var orderDoc in ordersSnapshot.docs) {
+      Map<String, dynamic> orderData = orderDoc.data() as Map<String, dynamic>;
+
+      Orders order = Orders(
+        id: orderDoc.id, // Assuming the document ID is used as order ID
+        name: orderData['name'],
+        quantity: orderData['quantity'],
+        image: orderData['image'],
+        date: (orderData['date'] as Timestamp).toDate(),
+        amount: orderData['amount'],
+      );
+
+      orders.add(order);
+    }
+  }
+
+  return orders;
 }
 
+Future<void> saveOrder(String userId, Orders order) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference ordersRef = firestore.collection('user').doc(userId).collection('orders');
+
+  try {
+    await ordersRef.doc(order.id).set(order.toJson());
+    print("Order saved successfully!");
+  } catch (e) {
+    print("Failed to save order: $e");
+  }
+}

@@ -94,7 +94,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 ),
                               ),
                               Text(
-                                order.amount,
+                                '${order.amount}',
                                 style: TextStyle(
                                     fontFamily: 'Kalpurush',
                                     color: kSecondaryColor.withOpacity(.6)

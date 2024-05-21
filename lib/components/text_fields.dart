@@ -6,6 +6,7 @@ class TextFieldWidget extends StatefulWidget {
   final String text;
   final bool obscureText;
   final TextEditingController textInputController;
+  final TextInputType keyboardType;
   final String errorText;
 
   const TextFieldWidget({super.key,
@@ -13,6 +14,7 @@ class TextFieldWidget extends StatefulWidget {
     required this.iconData,
     this.obscureText = false,
     required this.textInputController,
+    required this.keyboardType,
     this.errorText = '',
   });
 
@@ -27,6 +29,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   Widget build(BuildContext context) {
     bool hasError = widget.errorText.isNotEmpty;
     return TextField(
+      keyboardType: widget.keyboardType,
       style: TextStyle(
         fontFamily: 'Kalpurush',
         color: kSecondaryColor.withOpacity(.64),

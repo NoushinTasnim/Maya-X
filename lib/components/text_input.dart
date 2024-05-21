@@ -25,6 +25,7 @@ class TextInputFiledsWidget extends StatelessWidget {
             TextFieldWidget(
               iconData: Icons.person_outline,
               text: 'নাম',
+              keyboardType: TextInputType.name,
               textInputController: userController ?? phoneController,
             ),
             SizedBox(
@@ -37,6 +38,7 @@ class TextInputFiledsWidget extends StatelessWidget {
         TextFieldWidget(
           text: 'ফোন নম্বর',
           iconData: Icons.phone_outlined,
+          keyboardType: TextInputType.phone,
           textInputController: phoneController,
         ),
         const SizedBox(
@@ -46,6 +48,7 @@ class TextInputFiledsWidget extends StatelessWidget {
           iconData: Icons.lock_outline,
           text: 'পাসওয়ার্ড',
           obscureText: true,
+          keyboardType: TextInputType.visiblePassword,
           textInputController: passwordController,
         ),
         SizedBox(

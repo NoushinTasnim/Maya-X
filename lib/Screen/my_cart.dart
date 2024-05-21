@@ -115,9 +115,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Image.asset(
-                                    order.image,
-                                    height: 100,
+                                  Expanded(
+                                    child: Image(
+                                      image: NetworkImage(order.image),
+                                      height: 100,
+                                    ),
                                   ),
                                   Expanded(
                                     child: Column(
@@ -132,7 +134,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                           ),
                                         ),
                                         Text(
-                                          order.amount,
+                                          '${order.amount}',
                                           style: TextStyle(
                                             fontFamily: 'Kalpurush',
                                           ),

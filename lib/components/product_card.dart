@@ -1,9 +1,12 @@
 import 'package:animations/animations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:maya_x/Screen/details_screen.dart';
 import 'package:maya_x/colors.dart';
 
+import '../model/load_json.dart';
+import '../model/order.dart';
 import '../model/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -78,7 +81,17 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () async {
+                            Orders newOrder = Orders(
+                              id: DateTime.now().toString(),
+                              name: product.name,
+                              quantity: 1,
+                              image: product.image,
+                              date: DateTime.now(),
+                              amount: product.amount,
+                            );
+                            String? userId = FirebaseAuth.instance.currentUser?.uid;
+                            await saveOrder(userId!, newOrder);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: kSecondaryColor,
