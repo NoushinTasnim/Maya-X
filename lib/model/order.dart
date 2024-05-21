@@ -1,5 +1,5 @@
 class Order {
-  final int id;
+  final String id;
   final int index;
   final int quantity;
   final String name;
