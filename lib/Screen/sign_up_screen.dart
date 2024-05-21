@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/Screen/otp_screen.dart';
 import 'package:maya_x/colors.dart';
 import '../components/text_input.dart';
 import 'bottom_nav_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String? verificationId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +48,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextInputFiledsWidget(phoneController: phoneController, userController: userController,passwordController: passwordController),
                 InkWell(
                   onTap: () async {
-
-                    await FirebaseAuth.instance.verifyPhoneNumber(verificationCompleted: (PhoneAuthCredential credential){},
-                        verificationFailed: (FirebaseAuthException ex){},
-                        codeSent:(String Verificationid,int? resendtoken){
+                    // Check if the user with the same phone number already exists
+                    bool userExists = await _checkUserExists(phoneController.text.trim());
+                    if (userExists) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('এই ফোন নম্বরটি ইতিমধ্যে নিবন্ধিত আছে, অনুগ্রহ করে একটি নতুন নম্বর ব্যবহার করুন')),
+                      );
+                    } else {
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: phoneController.text.toString(),
+                        verificationCompleted: (PhoneAuthCredential credential) async {
+                          UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                          await _saveUserData(userCredential.user!.uid);
+                        },
+                        verificationFailed: (FirebaseAuthException e) {
+                          print('Verification failed: ${e.message}');
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+                          setState(() {
+                            this.verificationId = verificationId;
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OTPScreen(verificationId: Verificationid),
+                              builder: (context) => OTPScreen(
+                                verificationId: verificationId,
+                                phone: phoneController.text.trim(),
+                                password: passwordController.text.trim(),
+                                name: userController.text.trim(),
+                              ),
                             ),
                           );
                         },
-                        codeAutoRetrievalTimeout: (String Verificationid){},
-                        phoneNumber:phoneController.text.toString() );
-
-
-
-                    CollectionReference collref =FirebaseFirestore.instance.collection('user');
-                    collref.add({
-                      'phone':phoneController.text.trim(),
-                      'password':passwordController.text.trim(),
-                      'name':userController.text.trim(),
-
-                    });
-
+                        codeAutoRetrievalTimeout: (String verificationId) {
+                          setState(() {
+                            this.verificationId = verificationId;
+                          });
+                        },
+                      );
+                    }
                   },
                   child: Container(
                     width: double.infinity,
@@ -109,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       textAlign: TextAlign.center,
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -137,5 +153,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> _checkUserExists(String phone) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .where('phone', isEqualTo: phone)
+        .get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  Future<void> _saveUserData(String uid) async {
+    CollectionReference collref = FirebaseFirestore.instance.collection('user');
+    await collref.doc(uid).set({
+      'phone': phoneController.text.trim(),
+      'password': passwordController.text.trim(),
+      'name': userController.text.trim(),
+      'userID': uid,
+    });
   }
 }

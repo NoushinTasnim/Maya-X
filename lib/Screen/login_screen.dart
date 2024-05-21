@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
-import 'package:maya_x/Screen/otp_screen.dart';
-import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/Screen/sign_up_screen.dart';
 import 'package:maya_x/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../components/text_input.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +39,48 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontFamily: "Kalpurush",
                       color: kSecondaryColor,
                       fontSize: 32,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                TextInputFiledsWidget(phoneController: phoneController, passwordController: passwordController),
+                TextInputFiledsWidget(
+                    phoneController: phoneController,
+                    passwordController: passwordController),
+                Text(
+                  errorMessage,
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
                 InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BottomNavScreen(),
-                      ),
-                    );
+                  onTap: () async {
+                    String phone = phoneController.text.trim();
+                    String password = passwordController.text.trim();
+
+                    // Retrieve user document from Firestore
+                    var userDoc = await FirebaseFirestore.instance
+                        .collection('user')
+                        .where('phone', isEqualTo: phone)
+                        .get();
+
+                    if (userDoc.docs.isNotEmpty) {
+                      var userData = userDoc.docs.first.data();
+                      if (userData['password'] == password) {
+                        // Navigate to Home screen if authenticated
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavScreen(),
+                          ),
+                        );
+                        return;
+                      }
+                    }
+
+                    // Display error message if authentication fails
+                    setState(() {
+                      errorMessage = 'ভুল নম্বর বা পাসওয়ার্ড';
+                    });
                   },
                   child: Container(
                     width: double.infinity,
@@ -68,11 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       'লগ ইন',
                       style: TextStyle(
-                        fontFamily: 'Kalpurush',
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16
-                      ),
+                          fontFamily: 'Kalpurush',
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -85,12 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                           fontFamily: 'Kalpurush',
                           color: kSecondaryColor,
-                          fontSize: 16
-                      ),
+                          fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -105,8 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: kAccentColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline
-                        ),
+                            decoration: TextDecoration.underline),
                         textAlign: TextAlign.center,
                       ),
                     )

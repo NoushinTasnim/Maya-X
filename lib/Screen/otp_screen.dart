@@ -1,13 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
 
 class OTPScreen extends StatefulWidget {
   final String verificationId;
+  final String phone;
+  final String password;
+  final String name;
 
-  OTPScreen({Key? key, required this.verificationId}) : super(key: key);
+  OTPScreen({
+    Key? key,
+    required this.verificationId,
+    required this.phone,
+    required this.password,
+    required this.name,
+  }) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -19,10 +29,9 @@ class _OTPScreenState extends State<OTPScreen> {
   late String _verificationId;
 
   void _resendOtp() async {
-    // Add logic to resend OTP
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "YOUR_PHONE_NUMBER", // Replace with your phone number
+        phoneNumber: widget.phone,
         verificationCompleted: (PhoneAuthCredential credential) {},
         verificationFailed: (FirebaseAuthException e) {},
         codeSent: (String verificationId, int? resendToken) {
@@ -32,7 +41,7 @@ class _OTPScreenState extends State<OTPScreen> {
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
-        timeout: Duration(seconds: 60),
+        timeout: Duration(seconds: 120),
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('ওটিপি পুনরায় পাঠানো হয়েছে')),
@@ -40,6 +49,16 @@ class _OTPScreenState extends State<OTPScreen> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> _saveUserData(String uid) async {
+    CollectionReference collref = FirebaseFirestore.instance.collection('user');
+    await collref.doc(uid).set({
+      'phone': widget.phone,
+      'password': widget.password,
+      'name': widget.name,
+      'userID': uid,
+    });
   }
 
   @override
@@ -72,9 +91,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 fontSize: 24,
               ),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Text(
               'আপনার মোবাইলে একটি ওটিপি কোড প্রেরণ করা হয়েছে',
               style: TextStyle(
@@ -83,9 +100,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 fontSize: 16,
               ),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             OtpTextField(
               numberOfFields: 6,
               enabledBorderColor: kAccent2,
@@ -100,9 +115,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 });
               },
             ),
-            SizedBox(
-              height: 64,
-            ),
+            SizedBox(height: 64),
             InkWell(
               onTap: () async {
                 try {
@@ -111,7 +124,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     smsCode: otpCode,
                   );
 
-                  await FirebaseAuth.instance.signInWithCredential(credential);
+                  UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                  await _saveUserData(userCredential.user!.uid);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('সাইন আপ সম্পন্ন হয়েছে।')),
@@ -124,7 +138,6 @@ class _OTPScreenState extends State<OTPScreen> {
                     ),
                   );
                 } catch (ex) {
-                  // Handle exception, show error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('ওটিপি টি সঠিক নয়!')),
                   );
@@ -146,9 +159,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             isOtpSent
                 ? InkWell(
               onTap: _resendOtp,
