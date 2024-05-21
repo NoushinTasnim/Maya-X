@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'category.dart';
 import 'package:maya_x/model/product.dart';
+import 'package:maya_x/model/order.dart';
 
 //
 // Future<List<Category>> loadCategories() async {
@@ -40,4 +41,10 @@ Future<List<Category>> loadCategories() async {
   return categories;
 }
 
+Future<List<Orders>> loadOrders() async {
+  final String response = await rootBundle.loadString('assets/orders.json');
+  final data = json.decode(response) as Map<String, dynamic>;
+  var ordersFromJson = data['orders'] as List;
+  return ordersFromJson.map((json) => Orders.fromJson(json)).toList();
+}
 

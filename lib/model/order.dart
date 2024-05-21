@@ -1,5 +1,5 @@
-class Order {
-  final int id;
+class Orders {
+  final String id;
   final int index;
   final int quantity;
   final String name;
@@ -7,7 +7,7 @@ class Order {
   final String amount;
   final String image;
 
-  Order({
+  Orders({
     required this.id,
     required this.index,
     required this.quantity,
@@ -17,8 +17,8 @@ class Order {
     required this.image,
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    return Order(
+  factory Orders.fromJson(Map<String, dynamic> json) {
+    return Orders(
       id: json['id'],
       index: json['index'],
       name: json['name'],

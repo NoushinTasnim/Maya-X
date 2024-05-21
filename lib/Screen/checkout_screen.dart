@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/order_confirmation_screen.dart';
 
 import '../colors.dart';
+import '../model/load_json.dart';
+import '../model/order.dart';
 import 'bottom_nav_screen.dart';
 
 class CheckOutScreen extends StatefulWidget {
@@ -15,17 +17,34 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   bool _bkashPay = false;
   bool _nagadPay = false;
   bool _codPay = false;
+  late Future<List<Orders>> _futureOrders;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureOrders = loadOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
+        leading: InkWell(
+            onTap:(){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: kPrimaryColor,
+            )
+        ),
         backgroundColor: kAccentColor,
         title: const Text(
           'চেকআউট',
           style: TextStyle(
-              fontFamily: 'Kalpurush'
+            fontFamily: 'Kalpurush',
+            color: kPrimaryColor,
           ),
         ),
       ),
@@ -40,55 +59,56 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 Text(
                   'অর্ডার সারাংশ',
                   style: TextStyle(
-                    fontFamily: 'Kalpurush',
-                    fontSize: 20,
-                    color: kSecondaryColor,
-                    fontWeight: FontWeight.bold
+                      fontFamily: 'Kalpurush',
+                      fontSize: 20,
+                      color: kSecondaryColor,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '১x ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাডঃ ',
-                      style: TextStyle(
-                          fontFamily: 'Kalpurush',
-                          color: kSecondaryColor.withOpacity(.6)
-                      ),
-                    ),
-                    Text(
-                      '১১০ টাকা',
-                      style: TextStyle(
-                          fontFamily: 'Kalpurush',
-                          color: kSecondaryColor.withOpacity(.6)
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '১x ফ্রিডম Super Dry স্যানিটারী ন্যাপকিন - ৮টি প্যাডঃ ',
-                      style: TextStyle(
-                          fontFamily: 'Kalpurush',
-                          color: kSecondaryColor.withOpacity(.6)
-                      ),
-                    ),
-                    Text(
-                      '১১০ টাকা',
-                      style: TextStyle(
-                          fontFamily: 'Kalpurush',
-                          color: kSecondaryColor.withOpacity(.6)
-                      ),
-                    )
-                  ],
+                FutureBuilder<List<Orders>>(
+                  future: _futureOrders,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: Text('No products available'));
+                    }
+                    final orders = snapshot.data!;
+                    return Column(
+                      children: orders.map((order) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                order.name,
+                                style: TextStyle(
+                                    fontFamily: 'Kalpurush',
+                                    color: kSecondaryColor.withOpacity(.6)
+                                ),
+                              ),
+                              Text(
+                                order.amount,
+                                style: TextStyle(
+                                    fontFamily: 'Kalpurush',
+                                    color: kSecondaryColor.withOpacity(.6)
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -114,7 +134,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   color: kSecondaryColor.withOpacity(.2),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -136,10 +156,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: 16,
                 ),
                 Text(
-                  'ডেলিভারীর ঠিকানা',
+                  'অর্ডারকারীর ঠিকানা',
                   style: TextStyle(
                       fontFamily: 'Kalpurush',
                       fontSize: 20,
