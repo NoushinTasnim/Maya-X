@@ -1,9 +1,12 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/product.dart';
 import '../components/product_card.dart';
+import '../model/User_model.dart';
 import '../model/category.dart';
 import '../model/load_json.dart';
 
@@ -17,17 +20,48 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   TextEditingController _searchController = TextEditingController();
   late Future<List<Category>> _futureCategories;
+  String? _userName;
 
   @override
   void initState() {
     super.initState();
     _futureCategories = loadCategories();
+    fetchData();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Usermodle user = Usermodle();
+
+  Future<void> fetchData() async {
+    // Assuming you are using Firebase Firestore
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid != null) {
+      try {
+        DocumentSnapshot documentSnapshot =
+        await FirebaseFirestore.instance.collection('user').doc(uid).get();
+
+        if (documentSnapshot.exists) {
+          final data = documentSnapshot.data() as Map<String, dynamic>;
+
+          setState(() {
+            user.name = data['name'].toString();
+            user.phone = data['phone'].toString();
+          });
+
+          print(user.name);
+        } else {
+          print('Document does not exist on the database');
+        }
+      } catch (e) {
+        print('Error fetching data: $e');
+      }
+    }
   }
 
   @override
@@ -41,8 +75,8 @@ class _ProductScreenState extends State<ProductScreen> {
           Icons.menu_rounded,
           color: kPrimaryColor,
         ),
-        title: const Text(
-          'লাবিবা আক্তার',
+        title: Text(
+          user.name ?? "Default Name",
           style: TextStyle(
             fontFamily: 'Kalpurush',
             color: kPrimaryColor,
@@ -52,8 +86,9 @@ class _ProductScreenState extends State<ProductScreen> {
           Padding(
             padding: EdgeInsets.all(16.0),
             child: InkWell(
-              onTap: (){
-                Navigator.push(context,
+              onTap: () {
+                Navigator.push(
+                  context,
                   MaterialPageRoute(
                     builder: (context) => MyCartScreen(),
                   ),
@@ -163,7 +198,8 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget buildProductCard(Product product, PageController pageController, int productIndex) {
+  Widget buildProductCard(
+      Product product, PageController pageController, int productIndex) {
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {

@@ -10,7 +10,8 @@ import 'home_screen.dart';
 import 'learn_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
-  const BottomNavScreen({super.key});
+
+  const BottomNavScreen({super.key}) ;
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
@@ -25,6 +26,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     HomeScreen(),
     LearnScreen(),
   ];
+
 
   @override
   Widget build(BuildContext context) {
