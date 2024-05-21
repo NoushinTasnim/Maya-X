@@ -3,6 +3,9 @@ import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/colors.dart';
 
+import '../model/load_json.dart';
+import '../model/order.dart';
+
 class MyCartScreen extends StatefulWidget {
   const MyCartScreen({super.key});
 
@@ -12,6 +15,13 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   int _counter = 1;
+  late Future<List<Order>> _futureOrders;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureOrders = loadOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
