@@ -8,8 +8,9 @@ class Orders{
   final DateTime date;
   final String amount;
   final String vendor;
+  final String status;
 
-    Orders({
+  Orders({
     required this.id,
     required this.name,
     required this.quantity,
@@ -17,6 +18,7 @@ class Orders{
     required this.date,
     required this.amount,
     required this.vendor,
+    required this.status,
   });
 
   Orders copyWith({String? quantity}) {
@@ -28,6 +30,7 @@ class Orders{
       date: this.date,
       amount: this.amount,
       vendor: this.vendor,
+      status: this.status,
     );
   }
 
@@ -41,6 +44,7 @@ class Orders{
       date: (json['date'] as Timestamp).toDate(),
       amount: json['amount'],
       vendor: json['vendor'],
+      status: json['status'],
     );
   }
 
@@ -53,6 +57,7 @@ class Orders{
       'date': date,
       'amount': amount,
       'vendor': vendor,
+      'status' : status,
     };
   }
 }
