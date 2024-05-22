@@ -102,13 +102,13 @@ class ProductCard extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: kAccent2,
+                              color: kPrimaryColor,
                               borderRadius: BorderRadius.circular(8)
                             ),
                             padding: EdgeInsets.all(8),
                             child: Icon(
                               Icons.add_shopping_cart,
-                              color: kSecondaryColor,
+                              color: kAccentColor,
                             ),
                           ),
                         )

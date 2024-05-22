@@ -6,7 +6,7 @@ import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/Screen/sign_up_screen.dart';
 import 'package:maya_x/colors.dart';
 
-import 'home_screen.dart';
+import 'order_history.dart';
 import 'learn_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -24,7 +24,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   List<Widget> pageList = <Widget>[
     ProductScreen(),
     HomeScreen(),
-    LearnScreen(),
   ];
 
 
@@ -74,15 +73,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             tabs: [
               GButton(
                 icon: Icons.shopping_cart,
-                text: 'পণ্য কিনুন',
-              ),
-              GButton(
-                icon: Icons.home_filled,
                 text: 'হোম',
               ),
               GButton(
-                icon: Icons.book,
-                text: 'শিখুন',
+                icon: Icons.history,
+                text: 'পূর্বের অর্ডার',
               ),
             ],
           ),

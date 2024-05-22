@@ -65,6 +65,7 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
       } else {
         print("Vendor not found: ${order.vendor}");
       }
+      deleteOrder(userId, order);
     }
     print("Orders saved successfully!");
   } catch (e) {
