@@ -65,8 +65,8 @@ class DetailsScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(64),
                   ),
-                  child: Image.network(
-                    product.image,
+                  child: Image(
+                    image: NetworkImage(product.image),
                     width: double.infinity,
                     height: 200,
                   ),
@@ -75,148 +75,100 @@ class DetailsScreen extends StatelessWidget {
             ),
             SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            product.name,
-                            style: const TextStyle(
-                              fontFamily: 'Kalpurush',
-                              color: kAccentColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          product.amount,
-                          style: const TextStyle(
-                            color: kAccentColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontFamily: 'Kalpurush',
+                        color: kAccentColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            Orders newOrder = Orders(
-                              id: DateTime.now().toString(),
-                              name: product.name,
-                              vendor: product.vendor,
-                              quantity: "১",
-                              image: product.image,
-                              date: DateTime.now(),
-                              amount: product.amount,
-                            );
-                            String userId = Usermodel().getUserID();
-                            await saveOrder(userId, newOrder);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: kSecondaryColor,
-                                content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black45,
-                                      blurRadius: 5,
-                                      offset: Offset(5,5)
-                                  ),
-                                  BoxShadow(
-                                      color: Colors.white30,
-                                      blurRadius: 15,
-                                      offset: Offset(-5,-5)
-                                  ),
-                                ]
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add_shopping_cart_outlined,
-                                  color: kAccentColor,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'কার্টে যোগ করুন',
-                                  style: TextStyle(
-                                      color: kAccentColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12
-                                  ),
-                                ),
-                              ],
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            product.amount,
+                            style: const TextStyle(
+                              color: kAccentColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckOutScreen()));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                            decoration: BoxDecoration(
-                                color: kAccentColor,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black45,
-                                      blurRadius: 5,
-                                      offset: Offset(5,5)
-                                  ),
-                                  BoxShadow(
-                                      color: Colors.white30,
-                                      blurRadius: 5,
-                                      offset: Offset(-5,-5)
-                                  ),
-                                ]
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: kPrimaryColor,
+                        Expanded(
+                          flex: 2,
+                          child: InkWell(
+                            onTap: () async {
+                              Orders newOrder = Orders(
+                                id: DateTime.now().toString(),
+                                name: product.name,
+                                vendor: product.vendor,
+                                quantity: "১",
+                                image: product.image,
+                                date: DateTime.now(),
+                                amount: product.amount,
+                              );
+                              String userId = Usermodel().getUserID();
+                              await saveOrder(userId, newOrder);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  backgroundColor: kSecondaryColor,
+                                  content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
                                 ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'অর্ডার করুন',
-                                  style: TextStyle(
-                                      color: kPrimaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                              decoration: BoxDecoration(
+                                  color: kAccentColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black45,
+                                        blurRadius: 5,
+                                        offset: Offset(5,5)
+                                    ),
+                                    BoxShadow(
+                                        color: Colors.white30,
+                                        blurRadius: 15,
+                                        offset: Offset(-5,-5)
+                                    ),
+                                  ]
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_shopping_cart_outlined,
+                                    color: kPrimaryColor,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'কার্টে যোগ করুন',
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
