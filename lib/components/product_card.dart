@@ -89,6 +89,7 @@ class ProductCard extends StatelessWidget {
                               image: product.image,
                               date: DateTime.now(),
                               amount: product.amount,
+                              status: "pending"
                             );
                             String userId = Usermodel().getUserID();
                             await saveOrder(userId, newOrder);

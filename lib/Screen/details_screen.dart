@@ -97,14 +97,65 @@ class DetailsScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            product.amount,
-                            style: const TextStyle(
-                              color: kAccentColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
+                        InkWell(
+                          onTap: () async {
+                            Orders newOrder = Orders(
+                              id: DateTime.now().toString(),
+                              name: product.name,
+                              vendor: product.vendor,
+                              quantity: "১",
+                              image: product.image,
+                              date: DateTime.now(),
+                              amount: product.amount,
+                              status: "pending"
+                            );
+                            String userId = Usermodel().getUserID();
+                            await saveOrder(userId, newOrder);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: kSecondaryColor,
+                                content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 5,
+                                      offset: Offset(5,5)
+                                  ),
+                                  BoxShadow(
+                                      color: Colors.white30,
+                                      blurRadius: 15,
+                                      offset: Offset(-5,-5)
+                                  ),
+                                ]
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_shopping_cart_outlined,
+                                  color: kAccentColor,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  'কার্টে যোগ করুন',
+                                  style: TextStyle(
+                                      color: kAccentColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -119,7 +170,7 @@ class DetailsScreen extends StatelessWidget {
                                 quantity: "১",
                                 image: product.image,
                                 date: DateTime.now(),
-                                amount: product.amount,
+                                amount: product.amount, status: '',
                               );
                               String userId = Usermodel().getUserID();
                               await saveOrder(userId, newOrder);

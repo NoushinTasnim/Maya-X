@@ -54,6 +54,7 @@ Future<List<Orders>> loadOrders(String userId) async {
         date: (orderData['date'] as Timestamp).toDate(),
         amount: orderData['amount'],
         vendor: orderData['vendor'],
+        status: orderData['status'],
       );
       orders.add(order);
       print(order.date);
@@ -87,6 +88,7 @@ Future<List<Orders>> loadCheckouts(String userId) async {
           date: (orderData['date'] as Timestamp).toDate(),
           amount: orderData['amount'],
           vendor: orderData['vendor'],
+          status: orderData['status'],
         );
         print("Order fetched: ${order.name}"); // Debug statement
         orders.add(order);
