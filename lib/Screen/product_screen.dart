@@ -6,7 +6,7 @@ import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/product.dart';
 import '../components/product_card.dart';
-import '../model/User_model.dart';
+import '../model/user_model.dart';
 import '../model/category.dart';
 import '../utils/load_json.dart';
 
@@ -26,7 +26,6 @@ class _ProductScreenState extends State<ProductScreen> {
     super.initState();
     _futureCategories = loadCategories();
      //fetchData();
-
   }
 
   @override
@@ -36,8 +35,6 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Usermodel user = Usermodel();
-
-
 
 
   @override

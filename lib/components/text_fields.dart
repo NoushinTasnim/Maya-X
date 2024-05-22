@@ -67,7 +67,12 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         )
             : null,
         hintText: widget.text,
-        hintStyle: Theme.of(context).textTheme.titleSmall,
+        hintStyle: TextStyle(
+            fontFamily: 'Kalpurush',
+            color: kSecondaryColor.withOpacity(.5),
+            fontWeight: FontWeight.w600,
+            fontSize: 14
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),

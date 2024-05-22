@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
+import 'package:maya_x/model/User_model.dart';
 import 'package:maya_x/utils/map_numbers.dart';
 import 'package:maya_x/utils/store_json.dart';
+import '../components/appbar.dart';
 import '../utils/load_json.dart';
 import '../model/order.dart';
 import 'checkout_screen.dart';
@@ -18,12 +20,13 @@ class MyCartScreen extends StatefulWidget {
 class _MyCartScreenState extends State<MyCartScreen> {
   late Future<List<Orders>> _futureOrders;
   List<Orders> _orders = [];
-  String? userId = FirebaseAuth.instance.currentUser?.uid;
+  String userId = Usermodel().getUserID();
 
   @override
   void initState() {
     super.initState();
-    _futureOrders = loadOrders().then((orders) {
+    print(userId);
+    _futureOrders = loadOrders(userId).then((orders) {
       setState(() {
         _orders = orders;
       });
@@ -79,25 +82,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
           color: kPrimaryColor,
         ),
       ),
-      appBar: AppBar(
-        leading: InkWell(
-            onTap:(){
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: kPrimaryColor,
-            )
-        ),
-        backgroundColor: kAccentColor,
-        title: Text(
-          'আমার কার্ট',
-          style: TextStyle(
-            fontFamily: 'Kalpurush',
-            color: kPrimaryColor,
-          ),
-        ),
-      ),
+      appBar: buildAppBar(context, 'আমার কার্ট'),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 80), // Add padding to avoid content being hidden by the fixed button
         child: Column(

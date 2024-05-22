@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 import '../components/text_input.dart';
-import '../model/User_model.dart';
+import '../model/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Usermodel user= Usermodel();
                         user.setName(userData['name']);
                         user.setUserID(userData['userID']);
-                        user.setPassword(userData['password']);
+                        print(user.getUserID());
                         user.setPhone(userData['phone']);
 
                         print(user.getName());

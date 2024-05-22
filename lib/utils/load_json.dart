@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../model/User_model.dart';
 import '../model/category.dart';
 import 'package:maya_x/model/product.dart';
 import 'package:maya_x/model/order.dart';
@@ -33,18 +34,15 @@ Future<List<Category>> loadCategories() async {
   return categories;
 }
 
-Future<List<Orders>> loadOrders() async {
+Future<List<Orders>> loadOrders(String userId) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference usersRef = firestore.collection('user');
+  print("ss"+userId);
+  CollectionReference usersRef = firestore.collection('user').doc(userId).collection('orders');
 
   List<Orders> orders = [];
 
-  // Assuming each user's orders are stored under their unique user ID
-  QuerySnapshot usersSnapshot = await usersRef.get();
-
-  for (var userDoc in usersSnapshot.docs) {
-    CollectionReference ordersRef = userDoc.reference.collection('orders');
-    QuerySnapshot ordersSnapshot = await ordersRef.get();
+    QuerySnapshot ordersSnapshot = await usersRef.get();
+    print("Fetched checkout documents: ${ordersSnapshot.docs.length}"); // Debug statement
 
     for (var orderDoc in ordersSnapshot.docs) {
       Map<String, dynamic> orderData = orderDoc.data() as Map<String, dynamic>;
@@ -60,7 +58,44 @@ Future<List<Orders>> loadOrders() async {
       orders.add(order);
       print(order.date);
     }
+  return orders;
+}
+
+Future<List<Orders>> loadCheckouts(String userId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  print("ss"+userId);
+  CollectionReference checkoutRef = firestore.collection('user').doc(userId).collection('checkout');
+
+  List<Orders> orders = [];
+
+  try {
+    QuerySnapshot checkoutsSnapshot = await checkoutRef.get();
+    print("Fetched checkout documents: ${checkoutsSnapshot.docs.length}"); // Debug statement
+
+    for (var checkoutDoc in checkoutsSnapshot.docs) {
+      print("Processing checkout document: ${checkoutDoc.id}"); // Debug statement
+      QuerySnapshot ordersDetailsSnapshot = await checkoutDoc.reference.collection('orders').get();
+      print("Fetched orders for checkout document: ${ordersDetailsSnapshot.docs.length}"); // Debug statement
+
+      for (var orderDetailDoc in ordersDetailsSnapshot.docs) {
+        Map<String, dynamic> orderData = orderDetailDoc.data() as Map<String, dynamic>;
+        Orders order = Orders(
+          id: orderData['id'],
+          name: orderData['name'],
+          quantity: orderData['quantity'],
+          image: orderData['image'],
+          date: (orderData['date'] as Timestamp).toDate(),
+          amount: orderData['amount'],
+          vendor: orderData['vendor'],
+        );
+        print("Order fetched: ${order.name}"); // Debug statement
+        orders.add(order);
+      }
+    }
+    print("Orders loaded successfully!");
+  } catch (e) {
+    print("Failed to load orders: $e");
   }
-  print(orders);
+
   return orders;
 }

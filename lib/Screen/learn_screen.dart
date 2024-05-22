@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maya_x/model/User_model.dart';
+import 'package:maya_x/model/user_model.dart';
 
 import '../colors.dart';
 import 'my_cart.dart';

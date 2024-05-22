@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/colors.dart';
 
@@ -54,7 +55,7 @@ class OrderConfirmation extends StatelessWidget {
                 child: InkWell(
                   onTap: (){
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context)=> ProductScreen())
+                        MaterialPageRoute(builder: (context)=> BottomNavScreen())
                     );
                   },
                   child: Text(

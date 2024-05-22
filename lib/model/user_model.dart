@@ -25,10 +25,6 @@ class Usermodel {
     this.userID = userID;
   }
 
-  void setPassword(String password) {
-    this.password = password;
-  }
-
   // Getter methods
   String getName() {
     return name;
@@ -40,9 +36,5 @@ class Usermodel {
 
   String getUserID() {
     return userID;
-  }
-
-  String getPassword() {
-    return password;
   }
 }

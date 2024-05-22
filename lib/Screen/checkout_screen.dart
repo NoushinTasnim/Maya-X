@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/order_confirmation_screen.dart';
+import 'package:maya_x/model/User_model.dart';
 import 'package:maya_x/utils/map_numbers.dart';
-
+import 'package:maya_x/utils/store_json.dart';
 import '../colors.dart';
+import '../components/appbar.dart';
+import '../components/order_summary.dart';
+import '../components/text_fields.dart';
 import '../utils/convert_sum.dart';
 import '../utils/load_json.dart';
 import '../model/order.dart';
-import 'bottom_nav_screen.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -20,12 +25,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   bool _nagadPay = false;
   bool _codPay = false;
   late Future<List<Orders>> _futureOrders;
+  TextEditingController adressController = TextEditingController();
   double totalSum = 0.0;
 
   @override
   void initState() {
     super.initState();
-    _futureOrders = loadOrders().then((orders) {
+    _futureOrders = loadOrders(Usermodel().getUserID()).then((orders) {
       setState(() {
         totalSum = calculateTotalSum(orders);
       });
@@ -38,25 +44,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      appBar: AppBar(
-        leading: InkWell(
-            onTap:(){
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: kPrimaryColor,
-            )
-        ),
-        backgroundColor: kAccentColor,
-        title: const Text(
-          'চেকআউট',
-          style: TextStyle(
-            fontFamily: 'Kalpurush',
-            color: kPrimaryColor,
-          ),
-        ),
-      ),
+      appBar: buildAppBar(context, 'চেকআউট'),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,40 +77,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         return Center(child: Text('No products available'));
                       }
                       final orders = snapshot.data!;
-                      return Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: orders.map((order) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        '${order.quantity}x ${order.name}',
-                                        style: TextStyle(
-                                            fontFamily: 'Kalpurush',
-                                            color: kSecondaryColor.withOpacity(.6)
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      '${order.quantity}x ${order.amount} = ${multiplyBanglaAmounts(order.amount, order.quantity)} টাকা',
-                                      style: TextStyle(
-                                          fontFamily: 'Kalpurush',
-                                          color: kSecondaryColor.withOpacity(.6)
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      );
+                      return OrderSummary(orders: orders);
                     },
                   ),
                   Padding(
@@ -188,40 +143,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   SizedBox(
                     height: 16,
                   ),
-                  TextField(
-                    style: TextStyle(
-                      fontFamily: 'Kalpurush',
-                      color: kSecondaryColor.withOpacity(.64),
-                    ),
-                    cursorColor: Theme.of(context).cardColor,
-                    decoration: InputDecoration(
-                      labelText: 'ঠিকানা',
-                      labelStyle:  TextStyle(
-                          fontFamily: 'Kalpurush',
-                          color: kSecondaryColor.withOpacity(.64),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).canvasColor.withOpacity(0.45),
-                      prefixIcon: Icon(
-                        Icons.my_location,
-                        color: kSecondaryColor.withOpacity(.64),
-                        size: 20,
-                      ),
-                      hintText: 'ঠিকানা',
-                      hintStyle: Theme.of(context).textTheme.titleSmall,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red), // Set the error border color to red
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onChanged: (val) {
-
-                    },
+                  TextFieldWidget(
+                    text: 'ঠিকানা',
+                    iconData: Icons.location_on_outlined,
+                    textInputController: adressController,
+                    keyboardType: TextInputType.streetAddress,
                   ),
                   SizedBox(
                     height: 32,
@@ -358,7 +284,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               ),
               padding: const EdgeInsets.all(16),
               child: InkWell(
-                onTap: (){
+                onTap: () async {
                   if(!(_bkashPay | _nagadPay | _codPay )){
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -368,9 +294,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     );
                   }
                   else{
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> OrderConfirmation())
-                    );
+                    String? userId = FirebaseAuth.instance.currentUser?.uid;
+                    try {
+                      List<Orders> orders = await _futureOrders;
+                      await saveCheckoutOrder(userId!, orders);
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => OrderConfirmation()),
+                      );
+                    } catch (e) {
+                      print('Error loading orders: $e');
+                      // Handle error loading orders
+                    }
                   }
                 },
                 child: Row(
