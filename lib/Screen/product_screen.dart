@@ -25,7 +25,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     super.initState();
     _futureCategories = loadCategories();
-     //fetchData();
+     fetchData();
 
   }
 
@@ -37,6 +37,41 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Usermodel user = Usermodel();
 
+  Future<void> fetchData() async {
+    if (user.getName() =='') {
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+      if (uid != null) {
+        try {
+          DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('user').doc(uid).get();
+
+          if (documentSnapshot.exists) {
+            final data = documentSnapshot.data() as Map<String, dynamic>?;
+
+            if (data != null) {
+              setState(() {
+                user.name = data['name'].toString();
+                user.phone = data['phone'].toString();
+                user.password = data['password'].toString();
+                user.userID = data['userID'].toString();
+
+              });
+
+              print(user.name);
+            } else {
+              print('No data found in document');
+            }
+          } else {
+            print('Document does not exist in the database');
+          }
+        } catch (e) {
+          print('Error fetching data: $e');
+        }
+      } else {
+        print('User ID is null');
+      }
+    }
+  }
 
 
 

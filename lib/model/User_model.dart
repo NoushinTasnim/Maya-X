@@ -8,11 +8,10 @@ class Usermodel {
   Usermodel._internal();
 
   String name = '';
-  String phone = '+880131';
-  String userID = '123';
+  String phone = '';
+  String userID = '';
   String password = '';
 
-  // Setter methods
   void setName(String name) {
     this.name = name;
   }
@@ -29,7 +28,6 @@ class Usermodel {
     this.password = password;
   }
 
-  // Getter methods
   String getName() {
     return name;
   }

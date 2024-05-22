@@ -6,6 +6,7 @@ import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/Screen/otp_screen.dart';
 import 'package:maya_x/colors.dart';
 import '../components/text_input.dart';
+import '../model/User_model.dart';
 import 'bottom_nav_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -68,6 +69,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verificationCompleted: (PhoneAuthCredential credential) async {
                           UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
                           await _saveUserData(userCredential.user!.uid);
+
+
                         },
                         verificationFailed: (FirebaseAuthException e) {
                           print('Verification failed: ${e.message}');
@@ -179,5 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'name': userController.text.trim(),
       'userID': uid,
     });
+
+
   }
 }

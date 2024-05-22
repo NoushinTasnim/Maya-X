@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
 
+import '../model/User_model.dart';
+
 class OTPScreen extends StatefulWidget {
   final String verificationId;
   final String phone;
@@ -130,7 +132,6 @@ class _OTPScreenState extends State<OTPScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('সাইন আপ সম্পন্ন হয়েছে।')),
                   );
-
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
