@@ -5,6 +5,7 @@ import 'package:maya_x/Screen/details_screen.dart';
 import 'package:maya_x/colors.dart';
 import '../model/order.dart';
 import '../model/product.dart';
+import '../model/user_model.dart';
 import '../utils/store_json.dart';
 
 class ProductCard extends StatelessWidget {
@@ -89,8 +90,8 @@ class ProductCard extends StatelessWidget {
                               date: DateTime.now(),
                               amount: product.amount,
                             );
-                            String? userId = FirebaseAuth.instance.currentUser?.uid;
-                            await saveOrder(userId!, newOrder);
+                            String userId = Usermodel().getUserID();
+                            await saveOrder(userId, newOrder);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: kSecondaryColor,

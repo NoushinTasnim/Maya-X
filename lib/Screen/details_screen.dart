@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
+import 'package:maya_x/model/user_model.dart';
 
+import '../model/order.dart';
 import '../model/product.dart';
+import '../utils/store_json.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.product});
@@ -112,7 +115,18 @@ class DetailsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InkWell(
-                          onTap: (){
+                          onTap: () async {
+                            Orders newOrder = Orders(
+                              id: DateTime.now().toString(),
+                              name: product.name,
+                              vendor: product.vendor,
+                              quantity: "১",
+                              image: product.image,
+                              date: DateTime.now(),
+                              amount: product.amount,
+                            );
+                            String userId = Usermodel().getUserID();
+                            await saveOrder(userId, newOrder);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: kSecondaryColor,
