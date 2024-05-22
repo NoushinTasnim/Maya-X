@@ -65,7 +65,7 @@ class DetailsScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(64),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     product.image,
                     width: double.infinity,
                     height: 200,
@@ -238,10 +238,10 @@ class DetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16.0),
                     child: Text(
-                      'Introducing the Fiddle Leaf Fig, a stunning indoor plant that adds a touch of elegance to any space. With its large, glossy leaves and tall stature, this plant is a true statement piece. The Fiddle Leaf Fig is known for its air-purifying qualities, making it not only beautiful but also beneficial for your indoor environment. Its lush green foliage brings a sense of freshness and serenity, creating a calming atmosphere. Whether placed in a living room, office, or bedroom, the Fiddle Leaf Fig is sure to be a conversation starter and a source of natural beauty.',
+                      product.details,
                       style: TextStyle(
                         color: kSecondaryColor,
                         fontSize: 16,
