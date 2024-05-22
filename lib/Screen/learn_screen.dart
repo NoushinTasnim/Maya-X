@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/model/User_model.dart';
 
 import '../colors.dart';
 import 'my_cart.dart';
 
-class LearnScreen extends StatelessWidget {
+class LearnScreen extends StatefulWidget {
   const LearnScreen({super.key});
 
+  @override
+  State<LearnScreen> createState() => _LearnScreenState();
+}
+
+class _LearnScreenState extends State<LearnScreen> {
+
+  Usermodel user= Usermodel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +25,8 @@ class LearnScreen extends StatelessWidget {
           Icons.menu_rounded,
           color: kPrimaryColor,
         ),
-        title: const Text(
-          'লাবিবা আক্তার',
+        title: Text(
+          user.getName(),
           style: TextStyle(
             fontFamily: 'Kalpurush',
             color: kPrimaryColor,

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/model/User_model.dart';
 
 import '../colors.dart';
 import 'my_cart.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  Usermodel user= Usermodel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +25,8 @@ class HomeScreen extends StatelessWidget {
           Icons.menu_rounded,
           color: kPrimaryColor,
         ),
-        title: const Text(
-          'লাবিবা আক্তার',
+        title: Text(
+          user.getName(),
           style: TextStyle(
             fontFamily: 'Kalpurush',
             color: kPrimaryColor,

@@ -25,7 +25,8 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     super.initState();
     _futureCategories = loadCategories();
-    fetchData();
+     //fetchData();
+
   }
 
   @override
@@ -34,34 +35,10 @@ class _ProductScreenState extends State<ProductScreen> {
     super.dispose();
   }
 
-  Usermodle user = Usermodle();
+  Usermodel user = Usermodel();
 
-  Future<void> fetchData() async {
-    // Assuming you are using Firebase Firestore
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
 
-    if (uid != null) {
-      try {
-        DocumentSnapshot documentSnapshot =
-        await FirebaseFirestore.instance.collection('user').doc(uid).get();
 
-        if (documentSnapshot.exists) {
-          final data = documentSnapshot.data() as Map<String, dynamic>;
-
-          setState(() {
-            user.name = data['name'].toString();
-            user.phone = data['phone'].toString();
-          });
-
-          print(user.name);
-        } else {
-          print('Document does not exist on the database');
-        }
-      } catch (e) {
-        print('Error fetching data: $e');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
           color: kPrimaryColor,
         ),
         title: Text(
-          user.name ?? "Default Name",
+          user.getName(),
           style: TextStyle(
             fontFamily: 'Kalpurush',
             color: kPrimaryColor,
