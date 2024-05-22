@@ -57,23 +57,14 @@ class OrderConfirmation extends StatelessWidget {
                         MaterialPageRoute(builder: (context)=> ProductScreen())
                     );
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'হোমে ফিরে যান',
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontFamily: 'Kalpurush',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Icon(
-                        Icons.navigate_next,
-                        color: kPrimaryColor,
-                      )
-                    ],
+                  child: Text(
+                    'হোমে ফিরে যান',
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                      fontFamily: 'Kalpurush',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               )

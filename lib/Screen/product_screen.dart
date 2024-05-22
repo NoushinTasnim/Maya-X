@@ -8,7 +8,7 @@ import 'package:maya_x/model/product.dart';
 import '../components/product_card.dart';
 import '../model/User_model.dart';
 import '../model/category.dart';
-import '../model/load_json.dart';
+import '../utils/load_json.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});

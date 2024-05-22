@@ -1,13 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:maya_x/Screen/details_screen.dart';
 import 'package:maya_x/colors.dart';
-
-import '../model/load_json.dart';
 import '../model/order.dart';
 import '../model/product.dart';
+import '../utils/store_json.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -85,7 +83,8 @@ class ProductCard extends StatelessWidget {
                             Orders newOrder = Orders(
                               id: DateTime.now().toString(),
                               name: product.name,
-                              quantity: 1,
+                              vendor: product.vendor,
+                              quantity: "১",
                               image: product.image,
                               date: DateTime.now(),
                               amount: product.amount,

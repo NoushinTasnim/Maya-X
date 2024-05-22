@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'category.dart';
+import '../model/category.dart';
 import 'package:maya_x/model/product.dart';
 import 'package:maya_x/model/order.dart';
 
@@ -48,31 +48,19 @@ Future<List<Orders>> loadOrders() async {
 
     for (var orderDoc in ordersSnapshot.docs) {
       Map<String, dynamic> orderData = orderDoc.data() as Map<String, dynamic>;
-
       Orders order = Orders(
-        id: orderDoc.id, // Assuming the document ID is used as order ID
+        id: orderData['id'],
         name: orderData['name'],
         quantity: orderData['quantity'],
         image: orderData['image'],
         date: (orderData['date'] as Timestamp).toDate(),
         amount: orderData['amount'],
+        vendor: orderData['vendor'],
       );
-
       orders.add(order);
+      print(order.date);
     }
   }
-
+  print(orders);
   return orders;
-}
-
-Future<void> saveOrder(String userId, Orders order) async {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference ordersRef = firestore.collection('user').doc(userId).collection('orders');
-
-  try {
-    await ordersRef.doc(order.id).set(order.toJson());
-    print("Order saved successfully!");
-  } catch (e) {
-    print("Failed to save order: $e");
-  }
 }

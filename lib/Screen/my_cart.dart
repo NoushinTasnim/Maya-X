@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
-import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/colors.dart';
-
-import '../model/load_json.dart';
+import 'package:maya_x/utils/map_numbers.dart';
+import 'package:maya_x/utils/store_json.dart';
+import '../utils/load_json.dart';
 import '../model/order.dart';
+import 'checkout_screen.dart';
 
 class MyCartScreen extends StatefulWidget {
   const MyCartScreen({super.key});
@@ -14,13 +16,37 @@ class MyCartScreen extends StatefulWidget {
 }
 
 class _MyCartScreenState extends State<MyCartScreen> {
-  int _counter = 1;
   late Future<List<Orders>> _futureOrders;
+  List<Orders> _orders = [];
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void initState() {
     super.initState();
-    _futureOrders = loadOrders();
+    _futureOrders = loadOrders().then((orders) {
+      setState(() {
+        _orders = orders;
+      });
+      return orders;
+    });
+  }
+
+  Future<void> _updateQuantity(Orders order, int increment) async {
+    String qnt = banglaToEnglish(order.quantity);
+    int q = int.parse(qnt) + increment;
+    setState(() {
+      if (q < 0) q = 0;
+      if(q>10) q = 10;
+      String newQuantity = englishToBangla(q.toString());
+
+      int index = _orders.indexOf(order);
+      if (index != -1) {
+        _orders[index] = order.copyWith(quantity: newQuantity);
+      }
+    });
+    if(q==0){
+      await deleteOrder(userId!, order);
+    }
   }
 
   @override
@@ -29,7 +55,18 @@ class _MyCartScreenState extends State<MyCartScreen> {
       backgroundColor: kPrimaryColor,
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAccentColor,
-        onPressed: (){
+        onPressed: () async {
+          if(_orders.length==0){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: kSecondaryColor,
+                content: Text("কার্টে পণ্য যোগ করুন",),
+              ),
+            );
+          }
+          for (Orders order in _orders) {
+            await updateOrder(userId!, order);
+          }
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -98,9 +135,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   return Center(child: Text('No products available'));
                 }
 
-                final orders = snapshot.data!;
                 return Column(
-                  children: orders.map((order) {
+                  children: _orders.map((order) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                       child: Column(
@@ -116,12 +152,14 @@ class _MyCartScreenState extends State<MyCartScreen> {
                               child: Row(
                                 children: [
                                   Expanded(
+                                    flex: 2,
                                     child: Image(
                                       image: NetworkImage(order.image),
                                       height: 100,
                                     ),
                                   ),
                                   Expanded(
+                                    flex: 4,
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,18 +180,30 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       ],
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.add_circle,
-                                        color: kAccentColor,
-                                      ),
-                                      Text("${order.quantity}"),
-                                      Icon(
-                                        Icons.remove_circle,
-                                        color: kAccentColor,
-                                      ),
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        InkWell(
+                                          onTap:(){
+                                            _updateQuantity(order, 1);
+                                          },
+                                          child: Icon(
+                                            Icons.add_circle,
+                                            color: kAccentColor,
+                                          ),
+                                        ),
+                                        Text("${order.quantity}"),
+                                        InkWell(
+                                          onTap:(){
+                                            _updateQuantity(order, -1);
+                                          },
+                                          child: Icon(
+                                            Icons.remove_circle,
+                                            color: kAccentColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
