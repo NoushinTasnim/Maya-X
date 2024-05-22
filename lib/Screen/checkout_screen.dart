@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/order_confirmation_screen.dart';
-import 'package:maya_x/model/User_model.dart';
+import 'package:maya_x/model/user_model.dart';
 import 'package:maya_x/utils/map_numbers.dart';
 import 'package:maya_x/utils/store_json.dart';
 import '../colors.dart';

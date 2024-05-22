@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:maya_x/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
-import 'package:maya_x/model/User_model.dart';
+import 'package:maya_x/model/user_model.dart';
 import 'package:maya_x/utils/map_numbers.dart';
 import 'package:maya_x/utils/store_json.dart';
 import '../components/appbar.dart';
@@ -20,13 +20,13 @@ class MyCartScreen extends StatefulWidget {
 class _MyCartScreenState extends State<MyCartScreen> {
   late Future<List<Orders>> _futureOrders;
   List<Orders> _orders = [];
-  String userId = Usermodel().getUserID();
+  Usermodel user= Usermodel();
 
   @override
   void initState() {
     super.initState();
-    print(userId);
-    _futureOrders = loadOrders(userId).then((orders) {
+    print(user.getUserID());
+    _futureOrders = loadOrders(user.getUserID()).then((orders) {
       setState(() {
         _orders = orders;
       });
@@ -48,7 +48,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
       }
     });
     if(q==0){
-      await deleteOrder(userId!, order);
+      await deleteOrder(user.getUserID(), order);
     }
   }
 
@@ -68,7 +68,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
             );
           }
           for (Orders order in _orders) {
-            await updateOrder(userId!, order);
+            await updateOrder(user.getUserID(), order);
           }
           Navigator.push(
             context,
