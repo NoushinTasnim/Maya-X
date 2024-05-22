@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maya_x/model/user_model.dart';
 import 'package:maya_x/utils/convert_sum.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import 'package:maya_x/utils/load_json.dart';
 import '../colors.dart';
 import '../model/order.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -81,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 final order = orders[index];
                 return Card(
                   color: Colors.white,
-                  margin: EdgeInsets.all(8.0),
+                  margin: EdgeInsets.all(FetchPixels.getScale()*8.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -112,16 +114,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*8, vertical: FetchPixels.getScale()*4),
                               decoration: BoxDecoration(
                                   color: kAccentColor,
-                                  borderRadius: BorderRadius.circular(8)
+                                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*8)
                               ),
                               child: Text(
                                 '${order.status}',
                                 style: TextStyle(
                                   fontFamily: 'Kalpurush',
-                                  fontSize: 16,
+                                  fontSize: FetchPixels.getTextScale()*16,
                                   color: kPrimaryColor,
                                 ),
                               ),
@@ -134,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Expanded(
                               child: Image(
                                 image: NetworkImage(order.image),
-                                height: 100,
+                                height: FetchPixels.getPixelHeight(100),
                               ),
                             ),
                             Expanded(
@@ -160,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     'সর্বমোট মূল্য:  ${multiplyBanglaAmounts(order.amount, order.quantity)} টাকা',
                                     style: TextStyle(
                                       fontFamily: 'Kalpurush',
-                                      fontSize: 16,
+                                      fontSize: FetchPixels.getTextScale()*16,
                                       color: kSecondaryColor,
                                     ),
                                   ),

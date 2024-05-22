@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import '../colors.dart';
 import 'login_screen.dart';
 
@@ -24,28 +25,29 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kAccentColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Center(
+          Center(
             child: Text(
                 'মায়া x',
                 style: TextStyle(
                   fontFamily: 'Sirajee',
-                  fontSize: 48,
+                  fontSize: FetchPixels.getTextScale()*48,
                   color: kPrimaryColor,
                 ),
             ),
           ),
-          const SizedBox(
-            height: 32,
+          SizedBox(
+            height: FetchPixels.getPixelHeight(32),
           ),
           Image.asset(
             'images/woman.png',
-            height: 96,
+            height: FetchPixels.getPixelHeight(96),
           )
         ],
       ),

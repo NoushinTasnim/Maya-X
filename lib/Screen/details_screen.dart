@@ -3,6 +3,7 @@ import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/user_model.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 
 import '../model/order.dart';
 import '../model/product.dart';
@@ -14,6 +15,7 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -47,7 +49,7 @@ class DetailsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: 300,
+              height: FetchPixels.getPixelHeight(300),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -57,18 +59,18 @@ class DetailsScreen extends StatelessWidget {
                       blurRadius: 48,
                     )
                   ],
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(64),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(FetchPixels.getScale()*64),
                   ),
                 ),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(64),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(FetchPixels.getScale()*64),
                   ),
                   child: Image(
                     image: NetworkImage(product.image),
                     width: double.infinity,
-                    height: 200,
+                    height: FetchPixels.getPixelHeight(200),
                   ),
                 ),
               ),
@@ -79,13 +81,13 @@ class DetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16),
                     child: Text(
                       product.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Kalpurush',
                         color: kAccentColor,
-                        fontSize: 20,
+                        fontSize: FetchPixels.getTextScale()*20,
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 4,
@@ -93,7 +95,7 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -119,7 +121,7 @@ class DetailsScreen extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*16, horizontal: FetchPixels.getScale()*24),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -136,7 +138,7 @@ class DetailsScreen extends StatelessWidget {
                                   ),
                                 ]
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -145,14 +147,14 @@ class DetailsScreen extends StatelessWidget {
                                   color: kAccentColor,
                                 ),
                                 SizedBox(
-                                  width: 8,
+                                  width: FetchPixels.getPixelWidth(8),
                                 ),
                                 Text(
                                   'কার্টে যোগ করুন',
                                   style: TextStyle(
                                       color: kAccentColor,
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 12
+                                      fontSize: FetchPixels.getTextScale()*12
                                   ),
                                 ),
                               ],
@@ -182,10 +184,10 @@ class DetailsScreen extends StatelessWidget {
                               );
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                              padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*16, horizontal: FetchPixels.getScale()*24),
                               decoration: BoxDecoration(
                                   color: kAccentColor,
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                                   boxShadow: const [
                                     BoxShadow(
                                         color: Colors.black45,
@@ -199,7 +201,7 @@ class DetailsScreen extends StatelessWidget {
                                     ),
                                   ]
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -208,14 +210,14 @@ class DetailsScreen extends StatelessWidget {
                                     color: kPrimaryColor,
                                   ),
                                   SizedBox(
-                                    width: 8,
+                                    width: FetchPixels.getPixelWidth(8),
                                   ),
                                   Text(
                                     'কার্টে যোগ করুন',
                                     style: TextStyle(
                                         color: kPrimaryColor,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 12
+                                        fontSize: FetchPixels.getTextScale()*12
                                     ),
                                   ),
                                 ],
@@ -226,8 +228,8 @@ class DetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Padding(
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -235,19 +237,19 @@ class DetailsScreen extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             color: kSecondaryColor,
-                            fontSize: 18,
+                            fontSize: FetchPixels.getTextScale()*18,
                             fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*8, horizontal: FetchPixels.getScale()*16.0),
                     child: Text(
                       product.details,
                       style: TextStyle(
                         color: kSecondaryColor,
-                        fontSize: 16,
+                        fontSize: FetchPixels.getTextScale()*16,
                       ),
                     ),
                   ),

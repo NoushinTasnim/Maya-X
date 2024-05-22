@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/order_confirmation_screen.dart';
 import 'package:maya_x/model/user_model.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import 'package:maya_x/utils/map_numbers.dart';
 import 'package:maya_x/utils/store_json.dart';
 import '../colors.dart';
@@ -42,6 +43,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: buildAppBar(context, 'চেকআউট'),
@@ -50,7 +52,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,13 +60,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     'অর্ডার সারাংশ',
                     style: TextStyle(
                         fontFamily: 'Kalpurush',
-                        fontSize: 20,
+                        fontSize: FetchPixels.getTextScale()*20,
                         color: kSecondaryColor,
                         fontWeight: FontWeight.bold
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: FetchPixels.getPixelHeight(16),
                   ),
                   FutureBuilder<List<Orders>>(
                     future: _futureOrders,
@@ -81,7 +83,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -107,7 +109,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     color: kSecondaryColor.withOpacity(.2),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -135,13 +137,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     'অর্ডারকারীর ঠিকানা',
                     style: TextStyle(
                         fontFamily: 'Kalpurush',
-                        fontSize: 20,
+                        fontSize: FetchPixels.getTextScale()*20,
                         color: kSecondaryColor,
                         fontWeight: FontWeight.bold
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: FetchPixels.getPixelHeight(16),
                   ),
                   TextFieldWidget(
                     text: 'ঠিকানা',
@@ -150,19 +152,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     keyboardType: TextInputType.streetAddress,
                   ),
                   SizedBox(
-                    height: 32,
+                    height: FetchPixels.getPixelHeight(32),
                   ),
                   Text(
                     'পেমেন্টের মাধ্যম',
                     style: TextStyle(
                         fontFamily: 'Kalpurush',
-                        fontSize: 20,
+                        fontSize: FetchPixels.getTextScale()*20,
                         color: kSecondaryColor,
                         fontWeight: FontWeight.bold
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: FetchPixels.getPixelHeight(16),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,13 +187,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               color: kAccent2,
                               width: 2,
                             ),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ):
                           BoxDecoration(
                             color: kAccent2,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ),
-                          padding: EdgeInsets.all(8),
+                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
                           child: Image.asset(
                             'images/image 26.png',
                             height: 32,
@@ -216,16 +218,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               color: kAccent2,
                               width: 2,
                             ),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ):
                           BoxDecoration(
                             color: kAccent2,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ),
-                          padding: EdgeInsets.all(8),
+                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
                           child: Image.asset(
                             'images/image 27.png',
-                            height: 32,
+                            height: FetchPixels.getPixelHeight(32),
                           ),
                         ),
                       ),
@@ -247,15 +249,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               color: kAccent2,
                               width: 2,
                             ),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ):
                           BoxDecoration(
                             color: kAccent2,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ),
-                          padding: EdgeInsets.all(8),
-                          child: const SizedBox(
-                            height: 32,
+                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
+                          child: SizedBox(
+                            height: FetchPixels.getPixelHeight(32),
                             child: Center(
                               child: Text(
                                 'ক্যাশ অন ডেলিভারী',
@@ -277,12 +279,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               width: double.infinity,
               decoration: (_bkashPay | _nagadPay | _codPay )  ? BoxDecoration(
                   color: kAccentColor,
-                  borderRadius: BorderRadius.circular(16)
+                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
               ): BoxDecoration(
                   color: Colors.grey,
-                  borderRadius: BorderRadius.circular(16)
+                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
               ),
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(FetchPixels.getScale()*16),
               child: InkWell(
                 onTap: () async {
                   if(!(_bkashPay | _nagadPay | _codPay )){
@@ -317,7 +319,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontFamily: 'Kalpurush',
-                        fontSize: 16,
+                        fontSize: FetchPixels.getTextScale()*16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/product.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import '../components/product_card.dart';
 import '../model/user_model.dart';
 import '../model/category.dart';
@@ -73,6 +74,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -91,7 +93,7 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -112,16 +114,16 @@ class _ProductScreenState extends State<ProductScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(FetchPixels.getScale()*16),
             child: TextField(
               cursorColor: kSecondaryColor,
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 focusColor: kSecondaryColor,
                 hintText: 'অনুসন্ধান করুন...',
                 prefixIcon: Icon(Icons.search_rounded),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(FetchPixels.getScale()*16.0)),
                 ),
               ),
               onChanged: (value) {
@@ -130,7 +132,7 @@ class _ProductScreenState extends State<ProductScreen> {
               },
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: FetchPixels.getPixelHeight(16)),
           Expanded(
             child: FutureBuilder<List<Category>>(
               future: _futureCategories,
@@ -157,20 +159,20 @@ class _ProductScreenState extends State<ProductScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0),
                           child: Text(
                             category.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontFamily: 'Kalpurush',
                               color: kSecondaryColor,
-                              fontSize: 20,
+                              fontSize: FetchPixels.getTextScale()*20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: FetchPixels.getScale()*8),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
+                          padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*8),
                           child: AspectRatio(
                             aspectRatio: 1.8,
                             child: PageView.builder(
@@ -192,7 +194,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 32),
+                        SizedBox(height: FetchPixels.getScale()*32),
                       ],
                     );
                   },

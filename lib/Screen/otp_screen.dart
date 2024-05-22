@@ -4,6 +4,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 
 import '../model/User_model.dart';
 
@@ -65,6 +66,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -90,19 +92,19 @@ class _OTPScreenState extends State<OTPScreen> {
                 fontFamily: 'Kalpurush',
                 color: kAccentColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: FetchPixels.getTextScale()*24,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: FetchPixels.getScale()*16),
             Text(
               'আপনার মোবাইলে একটি ওটিপি কোড প্রেরণ করা হয়েছে',
               style: TextStyle(
                 fontFamily: 'Kalpurush',
                 color: kSecondaryColor,
-                fontSize: 16,
+                fontSize: FetchPixels.getScale()*16,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: FetchPixels.getScale()*16),
             OtpTextField(
               numberOfFields: 6,
               enabledBorderColor: kAccent2,
@@ -117,7 +119,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 });
               },
             ),
-            SizedBox(height: 64),
+            SizedBox(height: FetchPixels.getScale()*64),
             InkWell(
               onTap: () async {
                 try {
@@ -147,20 +149,20 @@ class _OTPScreenState extends State<OTPScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: kAccentColor,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*16),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*16, horizontal: FetchPixels.getScale()*32),
                 child: Text(
                   'প্রবেশ করুন',
                   style: TextStyle(
                     fontFamily: 'Kalpurush',
                     color: kPrimaryColor,
-                    fontSize: 16,
+                    fontSize: FetchPixels.getTextScale()*16,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: FetchPixels.getScale()*16),
             isOtpSent
                 ? InkWell(
               onTap: _resendOtp,
@@ -169,7 +171,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 style: TextStyle(
                   fontFamily: 'Kalpurush',
                   color: kAccentColor,
-                  fontSize: 16,
+                  fontSize: FetchPixels.getTextScale()*16,
                   decoration: TextDecoration.underline,
                 ),
               ),

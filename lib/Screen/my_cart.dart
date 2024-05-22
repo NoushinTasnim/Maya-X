@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:maya_x/Screen/bottom_nav_screen.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/user_model.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import 'package:maya_x/utils/map_numbers.dart';
 import 'package:maya_x/utils/store_json.dart';
 import '../components/appbar.dart';
@@ -54,6 +55,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       floatingActionButton: FloatingActionButton(
@@ -84,11 +86,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
       ),
       appBar: buildAppBar(context, 'আমার কার্ট'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 80), // Add padding to avoid content being hidden by the fixed button
+        padding: EdgeInsets.only(bottom: FetchPixels.getScale()*80), // Add padding to avoid content being hidden by the fixed button
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -123,24 +125,24 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 return Column(
                   children: _orders.map((order) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0, vertical: FetchPixels.getScale()*8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(FetchPixels.getScale()*16),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(FetchPixels.getScale()*8.0),
                               child: Row(
                                 children: [
                                   Expanded(
                                     flex: 2,
                                     child: Image(
                                       image: NetworkImage(order.image),
-                                      height: 100,
+                                      height: FetchPixels.getPixelHeight(100),
                                     ),
                                   ),
                                   Expanded(

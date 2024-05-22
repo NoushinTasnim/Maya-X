@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/Screen/otp_screen.dart';
 import 'package:maya_x/colors.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 import '../components/text_input.dart';
 import '../model/User_model.dart';
 import 'bottom_nav_screen.dart';
@@ -24,24 +25,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.all(FetchPixels.getScale()*32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 32),
+                Padding(
+                  padding: EdgeInsets.only(bottom: FetchPixels.getScale()*32),
                   child: Text(
                     "সাইন আপ",
                     style: TextStyle(
                         fontFamily: "Kalpurush",
                         color: kSecondaryColor,
-                        fontSize: 32,
+                        fontSize: FetchPixels.getTextScale()*32,
                         fontWeight: FontWeight.bold
                     ),
                   ),
@@ -61,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     bool userExists = await _checkUserExists(phone);
                     if (userExists) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('এই ফোন নম্বরটি ইতিমধ্যে নিবন্ধিত আছে, অনুগ্রহ করে একটি নতুন নম্বর ব্যবহার করুন')),
+                        SnackBar(content: Text('এই ফোন নম্বরটি ইতিমধ্যে নিবন্ধিত আছে, অনুগ্রহ করে অন্য নম্বর ব্যবহার করুন')),
                       );
                     } else {
                       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -69,8 +71,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verificationCompleted: (PhoneAuthCredential credential) async {
                           UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
                           await _saveUserData(userCredential.user!.uid);
-
-
                         },
                         verificationFailed: (FirebaseAuthException e) {
                           print('Verification failed: ${e.message}');
@@ -101,23 +101,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: Container(
                     width: double.infinity,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 32,
+                    margin: EdgeInsets.symmetric(
+                      vertical: FetchPixels.getScale()*32,
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 32,
+                    padding: EdgeInsets.symmetric(
+                      vertical: FetchPixels.getScale()*16,
+                      horizontal: FetchPixels.getScale()*32,
                     ),
                     decoration: BoxDecoration(
                       color: kAccentColor,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Text(
+                    child: Text(
                       'সাইন আপ',
                       style: TextStyle(
                           fontFamily: 'Kalpurush',
                           color: kPrimaryColor,
-                          fontSize: 16
+                          fontSize: FetchPixels.getTextScale()*16
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -126,12 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'অ্যাকাউন্ট আছে? ',
                       style: TextStyle(
                           fontFamily: 'Kalpurush',
                           color: kSecondaryColor,
-                          fontSize: 16
+                          fontSize: FetchPixels.getTextScale()*16
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -144,12 +144,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         'লগ ইন করুন',
                         style: TextStyle(
                             fontFamily: 'Kalpurush',
                             color: kAccentColor,
-                            fontSize: 16,
+                            fontSize: FetchPixels.getTextScale()*16,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline
                         ),

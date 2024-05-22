@@ -1,13 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:maya_x/Screen/login_screen.dart';
 import 'package:maya_x/Screen/product_screen.dart';
-import 'package:maya_x/Screen/sign_up_screen.dart';
 import 'package:maya_x/colors.dart';
-
+import 'package:maya_x/utils/fetch_pixels.dart';
 import 'order_history.dart';
-import 'learn_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
 
@@ -29,6 +26,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Scaffold(
       backgroundColor: kPrimaryColor,
       extendBodyBehindAppBar: true,
@@ -48,13 +46,13 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       ),
       bottomNavigationBar:
       Container(
-        margin: EdgeInsets.all(8),
+        margin: EdgeInsets.all(FetchPixels.getScale()*8),
         decoration: BoxDecoration(
           color: kAccentColor,
-          borderRadius: BorderRadius.circular(48),
+          borderRadius: BorderRadius.circular(FetchPixels.getScale()*48),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(FetchPixels.getScale()*8.0),
           child: GNav(
             selectedIndex: pageIndex,
             onTabChange: (value){
@@ -69,7 +67,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             color: Colors.white,
             activeColor: kAccentColor,
             gap: 8,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16, vertical: FetchPixels.getScale()*8),
             tabs: [
               GButton(
                 icon: Icons.shopping_cart,
