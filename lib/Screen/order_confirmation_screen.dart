@@ -35,7 +35,7 @@ class OrderConfirmation extends StatelessWidget {
                 height: FetchPixels.getPixelHeight(32),
               ),
               Text(
-                'আপনার অর্ডারটি কনফার্ম হয়েছে। ৩-৪ কার্যদিবসের মধ্যে আপনার অর্ডারটি পৌঁছে দেওয়া হবে।',
+                'আপনার অর্ডারটি সম্পন্ন হয়েছে। ৩-৪ কার্যদিবসের মধ্যে আপনার অর্ডারটি পৌঁছে দেওয়া হবে।',
                 style: TextStyle(
                   fontFamily: 'Kalpurush',
                   fontSize: FetchPixels.getTextScale()*16,
@@ -46,20 +46,20 @@ class OrderConfirmation extends StatelessWidget {
               SizedBox(
                 height: FetchPixels.getPixelHeight(64),
               ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: kAccentColor,
-                    borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
-                ),
-                padding: EdgeInsets.all(FetchPixels.getScale()*16),
-                child: InkWell(
-                  onTap: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context)=> BottomNavScreen())
-                    );
-                  },
+              InkWell(
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=> BottomNavScreen())
+                  );
+                },
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: kAccentColor,
+                      borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
+                  ),
+                  padding: EdgeInsets.all(FetchPixels.getScale()*16),
                   child: Text(
                     'হোমে ফিরে যান',
                     style: TextStyle(

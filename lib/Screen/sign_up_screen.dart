@@ -22,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? verificationId;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +52,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextInputFiledsWidget(phoneController: phoneController, userController: userController,passwordController: passwordController),
                 InkWell(
                   onTap: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
                     String phone = phoneController.text.trim();
                     if (!phone.startsWith("+880") || phone.length != 14) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('ফোন নম্বরটি ১১ ডিজিটের হতে হবে এবং +880 দিয়ে শুরু করতে হবে')),
                       );
+                      setState(() {
+                        _isLoading = false;
+                      });
                       return;
                     }
 
                     // Check if the user with the same phone number already exists
                     bool userExists = await _checkUserExists(phone);
                     if (userExists) {
+                      setState(() {
+                        _isLoading = false;
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('এই ফোন নম্বরটি ইতিমধ্যে নিবন্ধিত আছে, অনুগ্রহ করে অন্য নম্বর ব্যবহার করুন')),
                       );
@@ -98,6 +108,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       );
                     }
+                    setState(() {
+                    _isLoading = false;
+                    });
                   },
                   child: Container(
                     width: double.infinity,
@@ -157,6 +170,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ],
+                ),
+                if(_isLoading) Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
+                    child: CircularProgressIndicator(
+                      color: kAccentColor,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -182,7 +203,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'name': userController.text.trim(),
       'userID': uid,
     });
-
-
   }
 }

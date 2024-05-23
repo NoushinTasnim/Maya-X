@@ -88,81 +88,34 @@ class DetailsScreen extends StatelessWidget {
                         fontFamily: 'Kalpurush',
                         color: kAccentColor,
                         fontSize: FetchPixels.getTextScale()*20,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                       ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
+                    padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            Orders newOrder = Orders(
-                              id: DateTime.now().toString(),
-                              name: product.name,
-                              vendor: product.vendor,
-                              quantity: "১",
-                              image: product.image,
-                              date: DateTime.now(),
-                              amount: product.amount,
-                              status: "pending"
-                            );
-                            String userId = Usermodel().getUserID();
-                            await saveOrder(userId, newOrder);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: kSecondaryColor,
-                                content: Text("পণ্যটি আপনার কার্টে যুক্ত হয়েছে",),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*16, horizontal: FetchPixels.getScale()*24),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black45,
-                                      blurRadius: 5,
-                                      offset: Offset(5,5)
-                                  ),
-                                  BoxShadow(
-                                      color: Colors.white30,
-                                      blurRadius: 15,
-                                      offset: Offset(-5,-5)
-                                  ),
-                                ]
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add_shopping_cart_outlined,
-                                  color: kAccentColor,
-                                ),
-                                SizedBox(
-                                  width: FetchPixels.getPixelWidth(8),
-                                ),
-                                Text(
-                                  'কার্টে যোগ করুন',
-                                  style: TextStyle(
-                                      color: kAccentColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: FetchPixels.getTextScale()*12
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                         Expanded(
                           flex: 2,
+                          child: Text(
+                            product.amount,
+                            style: TextStyle(
+                              fontFamily: 'Kalpurush',
+                              color: kAccentColor,
+                              fontSize: FetchPixels.getTextScale()*24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Spacer(),
+                        Expanded(
+                          flex: 3,
                           child: InkWell(
                             onTap: () async {
                               Orders newOrder = Orders(
@@ -226,6 +179,21 @@ class DetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'বিক্রেতা: ${product.vendor}',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontFamily: 'Kalpurush',
+                            color: kSecondaryColor.withOpacity(0.64),
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
                     ),
                   ),
                   Padding(

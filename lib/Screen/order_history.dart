@@ -72,9 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(child: Text('আপনার কোন পূর্বের অর্ডার নেই'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No products available'));
+              return Center(child: Text('আপনার কোন পূর্বের অর্ডার নেই'));
             }
             final orders = snapshot.data!;
             return ListView.builder(
@@ -134,13 +134,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
+                              flex: 3,
                               child: Image(
                                 image: NetworkImage(order.image),
                                 height: FetchPixels.getPixelHeight(100),
                               ),
                             ),
+                            Spacer(),
                             Expanded(
-                              flex: 2,
+                              flex: 6,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

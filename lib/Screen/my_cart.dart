@@ -101,7 +101,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   );
                 },
                 child: Text(
-                  'আরও পণ্য যোগ করুন',
+                  'পণ্য যোগ করুন',
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontFamily: 'Kalpurush',
@@ -117,9 +117,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: Text('আপনার কার্টে কোন পণ্য নেই'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No products available'));
+                  return Center(child: Text('আপনার কার্টে কোন পণ্য নেই'));
                 }
 
                 return Column(

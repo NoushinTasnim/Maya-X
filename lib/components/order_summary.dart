@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:maya_x/utils/fetch_pixels.dart';
 
 import '../colors.dart';
 import '../model/order.dart';
@@ -15,13 +16,14 @@ class OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FetchPixels(context);
     return Column(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: orders.map((order) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

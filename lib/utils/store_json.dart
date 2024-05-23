@@ -42,15 +42,36 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference checkoutRef = firestore.collection('user').doc(userId).collection('checkout');
   String timeNow = DateTime.now().toIso8601String(); // Use ISO 8601 format for better readability
-  Usermodel user = Usermodel();
 
   try {
     DocumentReference newCheckoutDoc = checkoutRef.doc(timeNow);
-
+    // Set some initial data in the parent document
     await newCheckoutDoc.set({'timestamp': Timestamp.now()});
 
     for (var order in orders) {
-      await newCheckoutDoc.collection('orders').add(order.toJson());
+      await newCheckoutDoc.collection('orders').add({
+        'id': order.id,
+        'name': order.name,
+        'quantity': order.quantity,
+        'image': order.image,
+        'date': order.date,
+        'amount': order.amount,
+        'vendor': order.vendor,
+        'status' : "পেন্ডিং",
+      });
+    }
+    print("Orders saved successfully!");
+  } catch (e) {
+    print("Failed to save orders: $e");
+  }
+}
+
+Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Usermodel user = Usermodel();
+
+  try {
+    for (var order in orders) {
       QuerySnapshot vendorSnapshot = await firestore.collection('vendor').where('shop name', isEqualTo: order.vendor).get();
 
       if (vendorSnapshot.docs.isNotEmpty) {
@@ -65,7 +86,9 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
       } else {
         print("Vendor not found: ${order.vendor}");
       }
-      deleteOrder(userId, order);
+    }
+    for (var order in orders) {
+      await deleteOrder(userId, order);
     }
     print("Orders saved successfully!");
   } catch (e) {

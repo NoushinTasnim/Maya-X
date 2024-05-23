@@ -28,6 +28,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   late Future<List<Orders>> _futureOrders;
   TextEditingController adressController = TextEditingController();
   double totalSum = 0.0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
+              padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0, vertical: FetchPixels.getScale()*48),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -275,8 +276,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ],
               ),
             ),
+            if(_isLoading)Center(
+              child: Padding(
+                padding: EdgeInsets.all(FetchPixels.getScale()*8.0),
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
+              ),
+            ),
             Container(
-              width: double.infinity,
+              width: FetchPixels.getPixelWidth(200),
               decoration: (_bkashPay | _nagadPay | _codPay )  ? BoxDecoration(
                   color: kAccentColor,
                   borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
@@ -296,10 +305,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     );
                   }
                   else{
-                    String? userId = FirebaseAuth.instance.currentUser?.uid;
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    String userId = Usermodel().getUserID();
                     try {
                       List<Orders> orders = await _futureOrders;
                       await saveCheckoutOrder(userId!, orders);
+                      await saveCheckoutOrderInVendor(userId, orders);
 
                       Navigator.pushReplacement(
                         context,
@@ -310,24 +323,20 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       // Handle error loading orders
                     }
                   }
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'অর্ডার কনফার্ম করুন',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontFamily: 'Kalpurush',
-                        fontSize: FetchPixels.getTextScale()*16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Icon(
-                      Icons.navigate_next,
+                child: Center(
+                  child: Text(
+                    'অর্ডার করুন',
+                    style: TextStyle(
                       color: kPrimaryColor,
-                    )
-                  ],
+                      fontFamily: 'Kalpurush',
+                      fontSize: FetchPixels.getTextScale()*16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             )
