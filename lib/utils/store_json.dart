@@ -44,12 +44,14 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
   String timeNow = DateTime.now().toIso8601String(); // Use ISO 8601 format for better readability
 
   try {
+    // Create a new checkout document with a unique ID
     DocumentReference newCheckoutDoc = checkoutRef.doc(timeNow);
     // Set some initial data in the parent document
     await newCheckoutDoc.set({'timestamp': Timestamp.now()});
 
+    // Add each order to the orders subcollection of the checkout document
     for (var order in orders) {
-      await newCheckoutDoc.collection('orders').add({
+      await newCheckoutDoc.collection('orders').doc(order.id).set({
         'id': order.id,
         'name': order.name,
         'quantity': order.quantity,
@@ -57,7 +59,7 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
         'date': order.date,
         'amount': order.amount,
         'vendor': order.vendor,
-        'status' : "পেন্ডিং",
+        'status': "পেন্ডিং", // Assuming 'status' is initialized here
       });
     }
     print("Orders saved successfully!");
@@ -65,6 +67,8 @@ Future<void> saveCheckoutOrder(String userId, List<Orders> orders) async {
     print("Failed to save orders: $e");
   }
 }
+
+
 
 Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -77,7 +81,8 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
       if (vendorSnapshot.docs.isNotEmpty) {
         DocumentReference vendorDoc = vendorSnapshot.docs.first.reference;
 
-        await vendorDoc.collection('orders').doc(DateTime.now().toIso8601String()).set({
+
+        await vendorDoc.collection('orders').doc(order.id).set({
           ...order.toJson(),
           'userName': user.getName(),
           'userPhoneNumber': user.getPhone(),
@@ -94,3 +99,5 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
     print("Failed to save orders: $e");
   }
 }
+
+
