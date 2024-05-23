@@ -76,10 +76,18 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
 
       if (vendorSnapshot.docs.isNotEmpty) {
         DocumentReference vendorDoc = vendorSnapshot.docs.first.reference;
-        // await vendorDoc.collection('orders').add(order.toJson());
+        DocumentReference newDocRef = vendorDoc.collection('orders').doc();
+        String uniqueId = newDocRef.id;
 
-        await vendorDoc.collection('orders').add({
-          ...order.toJson(),
+        await newDocRef.set({
+          'id': uniqueId,
+          'name': order.name,
+          'quantity': order.quantity,
+          'image': order.image,
+          'date': order.date.toIso8601String(),
+          'amount': order.amount,
+          'vendor': order.vendor,
+          'status': 'পেন্ডিং',
           'userName': user.getName(),
           'userPhoneNumber': user.getPhone(),
         });
@@ -95,3 +103,4 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
     print("Failed to save orders: $e");
   }
 }
+
