@@ -173,6 +173,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
+                        Center(
+                          child: Text(
+                            (order.status=='পেন্ডিং') ?'আপনার অর্ডারটি বিক্রেতা কর্তৃক কনফার্ম হবার অপেক্ষায় আছে': 'আপনার অর্ডারটি বিক্রেতা কর্তৃক কনফার্ম হয়েছে',
+                            style: TextStyle(
+                              fontFamily: 'Kalpurush',
+                              color: kSecondaryColor.withOpacity(.64),
+                              fontSize: FetchPixels.getTextScale()*12
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

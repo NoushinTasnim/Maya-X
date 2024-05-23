@@ -167,111 +167,44 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   SizedBox(
                     height: FetchPixels.getPixelHeight(16),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            if(!_bkashPay) {
-                              _bkashPay = true;
-                              if (_codPay) _codPay = false;
-                              if (_nagadPay) _nagadPay = false;
-                            }
-                            else
-                              _bkashPay = false;
-                          });
-                        },
-                        child: Container(
-                          decoration: !_bkashPay? BoxDecoration(
-                            border: Border.all(
-                              color: kAccent2,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
-                          ):
-                          BoxDecoration(
-                            color: kAccent2,
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
-                          ),
-                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
-                          child: Image.asset(
-                            'images/image 26.png',
-                            height: 32,
-                          ),
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        if(!_codPay) {
+                          _codPay = true;
+                          if (_nagadPay) _nagadPay = false;
+                          if (_bkashPay) _bkashPay = false;
+                        }
+                        else
+                          _codPay = false;
+                      });
+                    },
+                    child: Container(
+                      decoration: !_codPay? BoxDecoration(
+                        border: Border.all(
+                          color: kAccent2,
+                          width: 2,
                         ),
+                        borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
+                      ):
+                      BoxDecoration(
+                        color: kAccent2,
+                        borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                       ),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            if(!_nagadPay) {
-                              _nagadPay = true;
-                              if (_codPay) _codPay = false;
-                              if (_bkashPay) _bkashPay = false;
-                            }
-                            else
-                              _nagadPay = false;
-                          });
-                        },
-                        child: Container(
-                          decoration:  !_nagadPay? BoxDecoration(
-                            border: Border.all(
-                              color: kAccent2,
-                              width: 2,
+                      padding: EdgeInsets.all(FetchPixels.getScale()*8),
+                      child: SizedBox(
+                        height: FetchPixels.getPixelHeight(32),
+                        child: Center(
+                          child: Text(
+                            'ক্যাশ অন ডেলিভারী',
+                            style: TextStyle(
+                              fontFamily: 'Sirajee',
+                              color: kSecondaryColor,
                             ),
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
-                          ):
-                          BoxDecoration(
-                            color: kAccent2,
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
                           ),
-                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
-                          child: Image.asset(
-                            'images/image 27.png',
-                            height: FetchPixels.getPixelHeight(32),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            if(!_codPay) {
-                              _codPay = true;
-                              if (_nagadPay) _nagadPay = false;
-                              if (_bkashPay) _bkashPay = false;
-                            }
-                            else
-                              _codPay = false;
-                          });
-                        },
-                        child: Container(
-                          decoration: !_codPay? BoxDecoration(
-                            border: Border.all(
-                              color: kAccent2,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
-                          ):
-                          BoxDecoration(
-                            color: kAccent2,
-                            borderRadius: BorderRadius.circular(FetchPixels.getScale()*8),
-                          ),
-                          padding: EdgeInsets.all(FetchPixels.getScale()*8),
-                          child: SizedBox(
-                            height: FetchPixels.getPixelHeight(32),
-                            child: Center(
-                              child: Text(
-                                'ক্যাশ অন ডেলিভারী',
-                                style: TextStyle(
-                                  fontFamily: 'Sirajee',
-                                  color: kSecondaryColor,
-                                ),
-                              ),
-                            ),
-                          )
                         ),
                       )
-                    ],
+                    ),
                   )
                 ],
               ),

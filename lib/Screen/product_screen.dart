@@ -26,6 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     super.initState();
     _futureCategories = loadCategories();
+    fetchData();
   }
 
   @override
@@ -113,26 +114,25 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(FetchPixels.getScale()*16),
-            child: TextField(
-              cursorColor: kSecondaryColor,
-              controller: _searchController,
-              decoration: InputDecoration(
-                focusColor: kSecondaryColor,
-                hintText: 'অনুসন্ধান করুন...',
-                prefixIcon: Icon(Icons.search_rounded),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(FetchPixels.getScale()*16.0)),
-                ),
-              ),
-              onChanged: (value) {
-                // Perform search or filter operations here
-                print('Search query: $value');
-              },
-            ),
-          ),
-          SizedBox(height: FetchPixels.getPixelHeight(16)),
+          // Padding(
+          //   padding: EdgeInsets.all(FetchPixels.getScale()*16),
+          //   child: TextField(
+          //     cursorColor: kSecondaryColor,
+          //     controller: _searchController,
+          //     decoration: InputDecoration(
+          //       focusColor: kSecondaryColor,
+          //       hintText: 'অনুসন্ধান করুন...',
+          //       prefixIcon: Icon(Icons.search_rounded),
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(FetchPixels.getScale()*16.0)),
+          //       ),
+          //     ),
+          //     onChanged: (value) {
+          //       // Perform search or filter operations here
+          //       print('Search query: $value');
+          //     },
+          //   ),
+          // ),
           Expanded(
             child: FutureBuilder<List<Category>>(
               future: _futureCategories,
@@ -146,58 +146,61 @@ class _ProductScreenState extends State<ProductScreen> {
                 }
 
                 final categories = snapshot.data!;
-                return ListView.builder(
-                  itemCount: categories.length,
-                  itemBuilder: (context, categoryIndex) {
-                    final category = categories[categoryIndex];
-                    final pageController = PageController(
-                      viewportFraction: .5,
-                      initialPage: 1,
-                    );
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*36),
+                  child: ListView.builder(
+                    itemCount: categories.length,
+                    itemBuilder: (context, categoryIndex) {
+                      final category = categories[categoryIndex];
+                      final pageController = PageController(
+                        viewportFraction: .5,
+                        initialPage: 1,
+                      );
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0),
-                          child: Text(
-                            category.name,
-                            style: TextStyle(
-                              fontFamily: 'Kalpurush',
-                              color: kSecondaryColor,
-                              fontSize: FetchPixels.getTextScale()*20,
-                              fontWeight: FontWeight.bold,
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*16.0),
+                            child: Text(
+                              category.name,
+                              style: TextStyle(
+                                fontFamily: 'Kalpurush',
+                                color: kSecondaryColor,
+                                fontSize: FetchPixels.getTextScale()*20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: FetchPixels.getScale()*8),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*8),
-                          child: AspectRatio(
-                            aspectRatio: 1.8,
-                            child: PageView.builder(
-                              onPageChanged: (value) {
-                                setState(() {
-                                  // Handle page change if necessary
-                                });
-                              },
-                              controller: pageController,
-                              physics: ClampingScrollPhysics(),
-                              itemCount: category.products.length,
-                              itemBuilder: (context, productIndex) {
-                                return buildProductCard(
-                                  category.products[productIndex],
-                                  pageController,
-                                  productIndex,
-                                );
-                              },
+                          SizedBox(height: FetchPixels.getScale()*8),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: FetchPixels.getScale()*8),
+                            child: AspectRatio(
+                              aspectRatio: 1.8,
+                              child: PageView.builder(
+                                onPageChanged: (value) {
+                                  setState(() {
+                                    // Handle page change if necessary
+                                  });
+                                },
+                                controller: pageController,
+                                physics: ClampingScrollPhysics(),
+                                itemCount: category.products.length,
+                                itemBuilder: (context, productIndex) {
+                                  return buildProductCard(
+                                    category.products[productIndex],
+                                    pageController,
+                                    productIndex,
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: FetchPixels.getScale()*32),
-                      ],
-                    );
-                  },
+                          SizedBox(height: FetchPixels.getScale()*32),
+                        ],
+                      );
+                    },
+                  ),
                 );
               },
             ),

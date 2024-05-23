@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   String errorMessage = '';
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 InkWell(
                   onTap: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
                     String phone = phoneController.text.trim();
                     String password = passwordController.text.trim();
 
@@ -86,10 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => BottomNavScreen(),
                           ),
                         );
+                        setState(() {
+                          _isLoading = false;
+                        });
                         return;
                       }
                     }
-
+                    setState(() {
+                      _isLoading = false;
+                    });
                     // Display error message if authentication fails
                     setState(() {
                       errorMessage = 'ভুল নম্বর বা পাসওয়ার্ড';
@@ -116,6 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: FetchPixels.getTextScale()*16),
                       textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                if(_isLoading) Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(FetchPixels.getScale()*16.0),
+                    child: CircularProgressIndicator(
+                      color: kAccentColor,
                     ),
                   ),
                 ),
@@ -147,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: FetchPixels.getTextScale()*16,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline),
-                        textAlign: TextAlign.center,
+                            textAlign: TextAlign.center,
                       ),
                     )
                   ],

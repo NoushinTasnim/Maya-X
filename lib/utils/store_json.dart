@@ -76,9 +76,8 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
 
       if (vendorSnapshot.docs.isNotEmpty) {
         DocumentReference vendorDoc = vendorSnapshot.docs.first.reference;
-        // await vendorDoc.collection('orders').add(order.toJson());
 
-        await vendorDoc.collection('orders').add({
+        await vendorDoc.collection('orders').doc(DateTime.now().toIso8601String()).set({
           ...order.toJson(),
           'userName': user.getName(),
           'userPhoneNumber': user.getPhone(),

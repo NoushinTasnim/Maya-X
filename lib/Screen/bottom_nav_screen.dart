@@ -75,7 +75,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               ),
               GButton(
                 icon: Icons.history,
-                text: 'পূর্বের অর্ডার',
+                text: 'আমার অর্ডার',
               ),
             ],
           ),
