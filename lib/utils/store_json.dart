@@ -80,7 +80,7 @@ Future<void> saveCheckoutOrderInVendor(String userId, List<Orders> orders) async
         String uniqueId = newDocRef.id;
 
         await newDocRef.set({
-          'id': uniqueId,
+          'id': order.id,
           'name': order.name,
           'quantity': order.quantity,
           'image': order.image,
