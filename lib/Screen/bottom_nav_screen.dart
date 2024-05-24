@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:maya_x/Screen/notification_screen.dart';
 import 'package:maya_x/Screen/product_screen.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/utils/fetch_pixels.dart';
@@ -20,7 +22,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   List<Widget> pageList = <Widget>[
     ProductScreen(),
-    HomeScreen(),
+    OrderHistoryScreen(),
+    NotificationScreen(),
   ];
 
 
@@ -76,6 +79,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               GButton(
                 icon: Icons.history,
                 text: 'আমার অর্ডার',
+              ),
+              GButton(
+                icon: Icons.notifications_outlined,
+                text: 'নোটিফিকেশন',
               ),
             ],
           ),

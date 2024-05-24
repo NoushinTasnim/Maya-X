@@ -8,14 +8,14 @@ import '../model/order.dart';
 import '../utils/map_numbers.dart';
 import 'my_cart.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class OrderHistoryScreen extends StatefulWidget {
+  const OrderHistoryScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
   Usermodel user= Usermodel();
   late Future<List<Orders>> _futureOrders;
@@ -115,8 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: FetchPixels.getScale()*8, vertical: FetchPixels.getScale()*4),
-                              decoration: BoxDecoration(
+                              decoration: (order.status == 'কনফার্ম') ? BoxDecoration(
                                   color: kAccentColor,
+                                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*8)
+                              ) : BoxDecoration(
+                                  border: Border.all(
+                                    color: kAccentColor
+                                  ),
                                   borderRadius: BorderRadius.circular(FetchPixels.getScale()*8)
                               ),
                               child: Text(
@@ -124,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(
                                   fontFamily: 'Kalpurush',
                                   fontSize: FetchPixels.getTextScale()*16,
-                                  color: kPrimaryColor,
+                                  color: (order.status == 'কনফার্ম') ? kPrimaryColor : kAccentColor,
                                 ),
                               ),
                             )

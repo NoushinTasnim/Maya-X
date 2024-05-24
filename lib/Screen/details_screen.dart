@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maya_x/Screen/checkout_screen.dart';
 import 'package:maya_x/Screen/my_cart.dart';
 import 'package:maya_x/colors.dart';
 import 'package:maya_x/model/user_model.dart';
 import 'package:maya_x/utils/fetch_pixels.dart';
-
 import '../model/order.dart';
 import '../model/product.dart';
 import '../utils/store_json.dart';

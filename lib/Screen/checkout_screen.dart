@@ -217,49 +217,50 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ),
               ),
             ),
-            Container(
-              width: FetchPixels.getPixelWidth(200),
-              decoration: (_bkashPay | _nagadPay | _codPay )  ? BoxDecoration(
-                  color: kAccentColor,
-                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
-              ): BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
-              ),
-              padding: EdgeInsets.all(FetchPixels.getScale()*16),
-              child: InkWell(
-                onTap: () async {
-                  if(!(_bkashPay | _nagadPay | _codPay )){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: kSecondaryColor,
-                        content: Text("পেমেন্টের মাধ্যম নির্বাচন করুন",),
-                      ),
-                    );
-                  }
-                  else{
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    String userId = Usermodel().getUserID();
-                    try {
-                      List<Orders> orders = await _futureOrders;
-                      await saveCheckoutOrder(userId!, orders);
-                      await saveCheckoutOrderInVendor(userId, orders);
+            InkWell(
 
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => OrderConfirmation()),
-                      );
-                    } catch (e) {
-                      print('Error loading orders: $e');
-                      // Handle error loading orders
-                    }
-                  }
+              onTap: () async {
+                if(!(_bkashPay | _nagadPay | _codPay )){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: kSecondaryColor,
+                      content: Text("পেমেন্টের মাধ্যম নির্বাচন করুন",),
+                    ),
+                  );
+                }
+                else{
                   setState(() {
-                    _isLoading = false;
+                    _isLoading = true;
                   });
-                },
+                  String userId = Usermodel().getUserID();
+                  try {
+                    List<Orders> orders = await _futureOrders;
+                    await saveCheckoutOrder(userId!, orders);
+                    await saveCheckoutOrderInVendor(userId, orders);
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderConfirmation()),
+                    );
+                  } catch (e) {
+                    print('Error loading orders: $e');
+                    // Handle error loading orders
+                  }
+                }
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              child: Container(
+                width: FetchPixels.getPixelWidth(200),
+                decoration: (_bkashPay | _nagadPay | _codPay )  ? BoxDecoration(
+                    color: kAccentColor,
+                    borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
+                ): BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(FetchPixels.getScale()*16)
+                ),
+                padding: EdgeInsets.all(FetchPixels.getScale()*16),
                 child: Center(
                   child: Text(
                     'অর্ডার করুন',

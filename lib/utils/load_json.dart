@@ -6,6 +6,8 @@ import '../model/category.dart';
 import 'package:maya_x/model/product.dart';
 import 'package:maya_x/model/order.dart';
 
+import '../model/messages.dart';
+
 Future<List<Category>> loadCategories() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference categoriesRef = firestore.collection('categories');
@@ -100,4 +102,33 @@ Future<List<Orders>> loadCheckouts(String userId) async {
   }
 
   return orders;
+}
+
+Future<List<Messages>> loadMessages(String userId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  print("ss"+userId);
+  CollectionReference usersRef = firestore.collection('user').doc(userId).collection('messages');
+
+  List<Messages> msgs = [];
+
+  try {
+    QuerySnapshot messagesSnapshot = await usersRef.get();
+    print("Fetched message documents: ${messagesSnapshot.docs.length}"); // Debug statement
+
+    for (var messageDoc in messagesSnapshot.docs) {
+      Map<String, dynamic> messageData = messageDoc.data() as Map<String, dynamic>;
+      print("Fetched message: ${messageData['message']}"); // Debug statement
+
+      Messages msg = Messages(
+        message: messageData['message'],
+        date: (messageData['timestamp'] as Timestamp).toDate(),
+      );
+
+      msgs.add(msg);
+      print("Message Date: ${msg.date}, Message: ${msg.message}"); // Debug statement
+    }
+  } catch (e) {
+    print("Failed to load messages: $e");
+  }
+  return msgs;
 }
