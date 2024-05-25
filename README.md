@@ -1,16 +1,14 @@
-# maya_x
+<h1>Maya X</h1>
+<p align="center">
+  <img src="https://github.com/NoushinTasnim/Maya-X/blob/main/5401087.jpg" alt="App Screenshot" width="1000" />
+</p>
+<h2>Overview</h2>
+<p>Maya X is a Bengali e-commerce app designed for women's menstrual hygiene products. This app allows women to easily browse, order, and purchase various menstrual hygiene products. The entire app is in Bengali to ensure a comfortable and easy user experience for rural Bangladeshi women.</p>
 
-A new Flutter project.
+ <h2>Technical Details</h2>
+<ul>
+        <li><strong>Framework:</strong> Flutter</li>
+        <li><strong>Language:</strong> Dart</li>
+        <li><strong>Database:</strong> Firebase</li>
+    </ul>
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
